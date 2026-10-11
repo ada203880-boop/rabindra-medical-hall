@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Product image unavailable</title>
+  <desc id="desc">A clean Rabindra Medical Hall medicine package illustration.</desc>
+  <rect width="320" height="320" rx="24" fill="#f5f8f7"/>
+  <rect x="68" y="76" width="184" height="168" rx="16" fill="#fff" stroke="#dfe9e5" stroke-width="4"/>
+  <rect x="68" y="76" width="184" height="42" rx="16" fill="#007a48"/>
+  <path d="M146 139h28v22h22v28h-22v22h-28v-22h-22v-28h22z" fill="#00a862"/>
+  <path d="M146 139h28v22h22v28h-22v22h-28v-22h-22v-28h22z" fill="none" stroke="#007a48" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="101" y="219" width="118" height="7" rx="3.5" fill="#dfe9e5"/>
+  <circle cx="160" cy="97" r="5" fill="#fff" opacity=".92"/>
+</svg>

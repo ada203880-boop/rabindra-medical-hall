@@ -1,0 +1,429 @@
+/* =========================================================================
+   ALPHABETICAL MEDICINE LIST TABLE (SHOP / CATALOG REFACTOR)
+   ========================================================================= */
+
+/* ---- Reset WooCommerce default grid for the medicine table list ---- */
+.woocommerce ul.products.rmh-medicine-table-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin: 0 0 36px 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    width: 100% !important;
+}
+
+.woocommerce ul.products.rmh-medicine-table-list::before,
+.woocommerce ul.products.rmh-medicine-table-list::after {
+    display: none !important;
+}
+
+/* ---- Table Header Bar ---- */
+.rmh-med-table-header {
+    display: grid;
+    grid-template-columns: minmax(0, 3.2fr) minmax(130px, 1.2fr) minmax(110px, 1fr) minmax(130px, 1fr);
+    gap: 16px;
+    align-items: center;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    background: #f1f7f4;
+    border: 1px solid var(--rmh-line, #dcebe2);
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--rmh-muted, #587065);
+    user-select: none;
+}
+
+.rmh-med-table-header .rmh-med-col--price {
+    text-align: right;
+}
+
+.rmh-med-table-header .rmh-med-col--action {
+    text-align: right;
+}
+
+/* ---- Medicine Row Item (LI) ---- */
+.woocommerce ul.products.rmh-medicine-table-list li.product.rmh-medicine-row-item {
+    display: block !important;
+    float: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    clear: none !important;
+}
+
+/* ---- Medicine Row Card (A link element) ---- */
+.rmh-medicine-row-card {
+    display: grid;
+    grid-template-columns: minmax(0, 3.2fr) minmax(130px, 1.2fr) minmax(110px, 1fr) minmax(130px, 1fr);
+    gap: 16px;
+    align-items: center;
+    padding: 14px 20px;
+    min-height: 64px;
+    background: #ffffff;
+    border: 1px solid var(--rmh-line, #dcebe2);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(19, 61, 43, 0.04);
+    text-decoration: none !important;
+    color: inherit;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Alternating row color */
+.woocommerce ul.products.rmh-medicine-table-list li.product.rmh-medicine-row-item:nth-child(even) .rmh-medicine-row-card {
+    background: #f9fbf9;
+}
+
+/* Hover & Focus state */
+.rmh-medicine-row-card:hover,
+.rmh-medicine-row-card:focus-visible {
+    background: #ffffff !important;
+    border-color: rgba(8, 122, 73, 0.4);
+    box-shadow: 0 6px 20px rgba(8, 122, 73, 0.12);
+    transform: translateY(-2px);
+}
+
+/* ---- Column 1: Medicine Name & Metadata ---- */
+.rmh-med-col--name {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.rmh-med-name {
+    font-size: 0.98rem;
+    font-weight: 750;
+    color: var(--rmh-ink, #10251b);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+}
+
+.rmh-medicine-row-card:hover .rmh-med-name {
+    color: var(--rmh-green, #087a49);
+}
+
+.rmh-med-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--rmh-muted, #587065);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rmh-med-comp {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rmh-med-brand {
+    font-weight: 600;
+    color: #4a6358;
+}
+
+/* ---- Column 2: Stock Availability Badge ---- */
+.rmh-med-col--status {
+    display: flex;
+    align-items: center;
+}
+
+.rmh-stock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.rmh-stock-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.rmh-stock-badge--instock {
+    background: #eaf6ee;
+    color: #0b7a48;
+    border: 1px solid rgba(11, 122, 72, 0.2);
+}
+
+.rmh-stock-badge--instock .rmh-stock-dot {
+    background: #0b7a48;
+    box-shadow: 0 0 0 2px rgba(11, 122, 72, 0.2);
+}
+
+.rmh-stock-badge--outofstock {
+    background: #fdf1f1;
+    color: #d32f2f;
+    border: 1px solid rgba(211, 47, 47, 0.2);
+}
+
+.rmh-stock-badge--outofstock .rmh-stock-dot {
+    background: #d32f2f;
+}
+
+.rmh-stock-badge--onbackorder {
+    background: #fef8ec;
+    color: #b45309;
+    border: 1px solid rgba(180, 83, 9, 0.2);
+}
+
+.rmh-stock-badge--onbackorder .rmh-stock-dot {
+    background: #b45309;
+}
+
+/* ---- Column 3: Price ---- */
+.rmh-med-col--price {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.rmh-med-price {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--rmh-ink, #10251b);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.rmh-med-price del {
+    font-size: 0.82rem;
+    color: #8fa199;
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.rmh-med-price ins {
+    text-decoration: none;
+    color: var(--rmh-green, #087a49);
+}
+
+/* ---- Column 4: View Action Button ---- */
+.rmh-med-col--action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.rmh-btn-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--rmh-green, #087a49);
+    color: #ffffff !important;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(8, 122, 73, 0.2);
+}
+
+.rmh-medicine-row-card:hover .rmh-btn-view {
+    background: #06633b;
+    box-shadow: 0 4px 12px rgba(8, 122, 73, 0.35);
+    transform: translateX(2px);
+}
+
+.rmh-btn-arrow {
+    font-size: 1rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.rmh-medicine-row-card:hover .rmh-btn-arrow {
+    transform: translateX(3px);
+}
+
+/* ---- Search tools refinements ---- */
+.rmh-shop-tools {
+    margin: 0 0 24px;
+    padding: 16px 20px;
+    border: 1px solid var(--rmh-line, #dcebe2);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(19, 61, 43, 0.05);
+}
+
+.rmh-shop-tools__search {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 0;
+}
+
+.rmh-shop-tools__search input[type="search"] {
+    min-height: 48px;
+    flex: 1 1 auto;
+    border: 1px solid var(--rmh-border, #b9d8ca);
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 0.95rem;
+    background: #fdfefe;
+}
+
+.rmh-shop-tools__search button {
+    min-height: 48px;
+    padding: 0 24px;
+    border-radius: 8px;
+    background: var(--rmh-green, #087a49);
+    color: #ffffff;
+    font-weight: 750;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.rmh-shop-tools__search button:hover {
+    background: #06633b;
+}
+
+/* ---- Pagination Polish ---- */
+.woocommerce-pagination {
+    margin: 36px 0 24px !important;
+    text-align: center;
+}
+
+.woocommerce-pagination ul.page-numbers {
+    display: inline-flex !important;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
+    border: none !important;
+}
+
+.woocommerce-pagination ul.page-numbers li {
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.woocommerce-pagination .page-numbers a,
+.woocommerce-pagination .page-numbers span {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 8px !important;
+    border: 1px solid var(--rmh-line, #dcebe2) !important;
+    background: #ffffff !important;
+    color: var(--rmh-ink, #10251b) !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+.woocommerce-pagination .page-numbers a:hover {
+    border-color: var(--rmh-green, #087a49) !important;
+    color: var(--rmh-green, #087a49) !important;
+    background: #f2f9f5 !important;
+}
+
+.woocommerce-pagination .page-numbers .current {
+    background: var(--rmh-green, #087a49) !important;
+    color: #ffffff !important;
+    border-color: var(--rmh-green, #087a49) !important;
+    box-shadow: 0 3px 10px rgba(8, 122, 73, 0.25) !important;
+}
+
+/* ---- Responsive Adjustments ---- */
+@media (max-width: 900px) {
+    .rmh-med-table-header {
+        grid-template-columns: minmax(0, 2.5fr) minmax(110px, 1fr) minmax(90px, 1fr) auto;
+        gap: 12px;
+        padding: 10px 16px;
+        font-size: 0.74rem;
+    }
+
+    .rmh-medicine-row-card {
+        grid-template-columns: minmax(0, 2.5fr) minmax(110px, 1fr) minmax(90px, 1fr) auto;
+        gap: 12px;
+        padding: 12px 16px;
+    }
+
+    .rmh-med-name {
+        font-size: 0.92rem;
+    }
+
+    .rmh-btn-view {
+        padding: 7px 12px;
+        font-size: 0.78rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .rmh-med-table-header {
+        display: none;
+    }
+
+    .rmh-medicine-row-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        gap: 8px 12px;
+        padding: 14px 16px;
+        min-height: 0;
+    }
+
+    .rmh-med-col--name {
+        grid-column: 1 / -1;
+    }
+
+    .rmh-med-name {
+        font-size: 0.96rem;
+        white-space: normal;
+    }
+
+    .rmh-med-meta {
+        white-space: normal;
+    }
+
+    .rmh-med-col--status {
+        grid-column: 1 / 2;
+    }
+
+    .rmh-med-col--price {
+        grid-column: 2 / 3;
+        justify-content: flex-end;
+    }
+
+    .rmh-med-col--action {
+        display: none;
+    }
+
+    .rmh-shop-tools__search {
+        flex-direction: column;
+    }
+
+    .rmh-shop-tools__search button {
+        width: 100%;
+    }
+}

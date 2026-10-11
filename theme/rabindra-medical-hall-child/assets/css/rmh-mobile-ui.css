@@ -1,0 +1,1491 @@
+/**
+ * Rabindra Medical Hall — Mobile Responsive UI & Design System
+ * 
+ * Production-ready mobile design system and layout cleanup:
+ * 1. Global Reset & Link Styling (eliminates default browser blue/underlines)
+ * 2. Prescription Upload Component (single clean UI, visually hides native file inputs)
+ * 3. Manufacturer Cards (responsive 2-column mobile grid, equal height, centered logos)
+ * 4. Pharmacy Benefits (consistent premium promo cards, no distorted layouts)
+ * 5. Product Cards (1:1 aspect ratio, clean typography, prominent price & Rx badge)
+ * 6. Mobile Bottom Navigation (fixed, safe-area aware, 44px+ tap targets)
+ * 7. Cart & Slide-out Mini-Cart Positioning (sits above bottom nav without collision)
+ * 8. Typography, Spacing & Responsive Breakpoints
+ */
+
+/* ==========================================================================
+   1. GLOBAL RESET & DESIGN SYSTEM LINK STYLING
+   ========================================================================== */
+
+/* Prevent default browser blue/underlined links across all RMH cards */
+.rmh-product-card a,
+.rmh-product-card h3 a,
+.rmh-brand-card,
+.rmh-brand-card a,
+.rmh-brand-card__name,
+.rmh-brand-card__count,
+.rmh-brand-card__link,
+.rmh-promo-card a,
+.rmh-qs-card a,
+.rmh-step-link,
+.rmh-view-all,
+.rmh-btn,
+.rmh-mobile-nav a {
+    text-decoration: none !important;
+}
+
+.rmh-product-card h3 a {
+    color: #1a202c !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.rmh-product-card h3 a:hover,
+.rmh-product-card h3 a:focus-visible {
+    color: #007a48 !important;
+}
+
+.rmh-view-all {
+    color: #007a48 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+.rmh-view-all:hover,
+.rmh-view-all:focus-visible {
+    text-decoration: underline !important;
+}
+
+.rmh-qs-btn {
+    color: #007a48 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+}
+
+.rmh-qs-btn:hover,
+.rmh-qs-btn:focus-visible {
+    text-decoration: underline !important;
+}
+
+/* RMH Primary and Secondary Button System */
+.rmh-btn-primary,
+button.rmh-form-button,
+a.rmh-btn-primary {
+    background-color: #007a48 !important;
+    color: #ffffff !important;
+    border: 1px solid #007a48 !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 18px !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+    box-sizing: border-box !important;
+}
+
+.rmh-btn-primary:hover,
+.rmh-btn-primary:focus-visible,
+button.rmh-form-button:hover,
+button.rmh-form-button:focus-visible {
+    background-color: #006339 !important;
+    border-color: #006339 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(0, 122, 72, 0.25) !important;
+}
+
+.rmh-btn-secondary,
+a.rmh-btn-secondary {
+    background-color: #f0f7f3 !important;
+    color: #007a48 !important;
+    border: 1px solid #c2e2d3 !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 18px !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease !important;
+    box-sizing: border-box !important;
+}
+
+.rmh-btn-secondary:hover,
+.rmh-btn-secondary:focus-visible {
+    background-color: #e2f1ea !important;
+    border-color: #007a48 !important;
+    color: #005a33 !important;
+}
+
+.rmh-btn-whatsapp,
+a.rmh-btn-whatsapp {
+    background-color: #25d366 !important;
+    color: #ffffff !important;
+    border: 1px solid #20bd5a !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 18px !important;
+    text-decoration: none !important;
+}
+
+.rmh-btn-whatsapp:hover,
+.rmh-btn-whatsapp:focus-visible {
+    background-color: #20bd5a !important;
+    color: #ffffff !important;
+}
+
+/* ==========================================================================
+   2. PRESCRIPTION UPLOAD COMPONENT (SINGLE CLEAN UI)
+   ========================================================================== */
+
+/* Visually hide native file inputs without breaking file picker activation */
+.rmh-visually-hidden-file,
+.rmh-prescription-file-input,
+.rmh-camera-input,
+input#prescriptionFile,
+input#rmhPrescriptionCamera,
+input#modalRxFile,
+input#modalRxCamera {
+    position: absolute !important;
+    width: 0.1px !important;
+    height: 0.1px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    z-index: -10 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    pointer-events: none !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+}
+
+.rmh-form-field--upload {
+    display: flex !important;
+    flex-direction: column !important;
+    background: #f7faf8 !important;
+    border: 1.5px dashed #b2d8c5 !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    margin-bottom: 16px !important;
+}
+
+.rmh-upload-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #1a202c !important;
+    margin-bottom: 2px !important;
+}
+
+.rmh-upload-subtitle {
+    font-size: 13px !important;
+    color: #4a5568 !important;
+    margin-bottom: 14px !important;
+}
+
+.rmh-prescription-file-actions {
+    display: flex !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin-bottom: 10px !important;
+}
+
+.rmh-file-action {
+    flex: 1 1 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: #ffffff !important;
+    color: #1a202c !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    min-height: 44px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.rmh-file-action:hover,
+.rmh-file-action:focus-visible {
+    border-color: #007a48 !important;
+    color: #007a48 !important;
+    background: #f0fdf4 !important;
+}
+
+.rmh-file-action svg {
+    flex-shrink: 0 !important;
+    stroke: currentColor !important;
+}
+
+.rmh-file-status {
+    font-size: 12px !important;
+    color: #007a48 !important;
+    font-weight: 600 !important;
+    margin-top: 6px !important;
+}
+
+/* ==========================================================================
+   3. MANUFACTURER CARDS (RESPONSIVE GRID)
+   ========================================================================== */
+
+.rmh-brands-section {
+    padding: 24px 0 !important;
+}
+
+.rmh-brands-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+}
+
+@media (min-width: 600px) {
+    .rmh-brands-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 14px !important;
+    }
+}
+
+@media (min-width: 900px) {
+    .rmh-brands-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 16px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .rmh-brands-grid {
+        grid-template-columns: repeat(6, 1fr) !important;
+        gap: 18px !important;
+    }
+}
+
+.rmh-brand-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 14px 10px 12px !important;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.rmh-brand-card:hover,
+.rmh-brand-card:focus-visible {
+    border-color: #007a48 !important;
+    box-shadow: 0 4px 14px rgba(0, 122, 72, 0.08) !important;
+    transform: translateY(-2px) !important;
+    text-decoration: none !important;
+}
+
+.rmh-brand-card__logo-wrap {
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 10px !important;
+    overflow: hidden !important;
+}
+
+.rmh-brand-card__logo {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 120px !important;
+    max-height: 46px !important;
+    aspect-ratio: 140 / 48 !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+.rmh-brand-card__emblem {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: #e6f4ea !important;
+    color: #007a48 !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+}
+
+.rmh-brand-card__name {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #1a202c !important;
+    line-height: 1.3 !important;
+    margin-bottom: 4px !important;
+    text-decoration: none !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    min-height: 34px !important;
+}
+
+.rmh-brand-card__count {
+    font-size: 11.5px !important;
+    color: #718096 !important;
+    margin-bottom: 8px !important;
+    text-decoration: none !important;
+}
+
+.rmh-brand-card__link {
+    margin-top: auto !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    color: #007a48 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+}
+
+/* ==========================================================================
+   4. PHARMACY BENEFITS (CONSISTENT PROMO CARDS)
+   ========================================================================== */
+
+.rmh-promotion-section {
+    padding: 24px 0 !important;
+}
+
+.rmh-promo-cards {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    align-items: stretch !important;
+}
+
+@media (min-width: 768px) {
+    .rmh-promo-cards {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 20px !important;
+    }
+}
+
+.rmh-promo-card {
+    display: flex !important;
+    flex-direction: column !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.rmh-promo-card__image-wrap {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 2 / 1 !important;
+    overflow: hidden !important;
+    background: #f1f5f9 !important;
+}
+
+.rmh-promo-card__image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+}
+
+.rmh-promo-card__content {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+    padding: 16px !important;
+}
+
+.rmh-promo-badge {
+    align-self: flex-start !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    background: #e6f4ea !important;
+    color: #007a48 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    margin-bottom: 8px !important;
+}
+
+.rmh-promo-card h3 {
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    color: #1a202c !important;
+    line-height: 1.3 !important;
+    margin: 0 0 8px 0 !important;
+}
+
+.rmh-promo-card p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #4a5568 !important;
+    margin: 0 0 14px 0 !important;
+    flex-grow: 1 !important;
+}
+
+.rmh-promo-card .rmh-btn {
+    margin-top: auto !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+/* ==========================================================================
+   5. PRODUCT CARDS & GRID
+   ========================================================================== */
+
+.rmh-product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+}
+
+@media (min-width: 768px) {
+    .rmh-product-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 16px !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .rmh-product-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 20px !important;
+    }
+}
+
+.rmh-product-card {
+    display: flex !important;
+    flex-direction: column !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+    height: 100% !important;
+    position: relative !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.rmh-product-card:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+.rmh-product-image {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background: #f8fafc !important;
+    margin-bottom: 10px !important;
+}
+
+.rmh-product-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    padding: 6px !important;
+    box-sizing: border-box !important;
+}
+
+.rmh-rx-badge {
+    position: absolute !important;
+    top: 6px !important;
+    left: 6px !important;
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    letter-spacing: 0.5px !important;
+    z-index: 2 !important;
+}
+
+.rmh-otc-badge {
+    position: absolute !important;
+    top: 6px !important;
+    left: 6px !important;
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    letter-spacing: 0.5px !important;
+    z-index: 2 !important;
+}
+
+.rmh-product-info {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+}
+
+.rmh-product-card__meta--brand {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    margin-bottom: 2px !important;
+}
+
+.rmh-product-card__meta--comp {
+    font-size: 11px !important;
+    color: #718096 !important;
+    margin-bottom: 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.rmh-price-block {
+    margin-top: auto !important;
+    padding-top: 8px !important;
+    margin-bottom: 10px !important;
+}
+
+.rmh-price-block .price,
+.rmh-product-card .price {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #007a48 !important;
+}
+
+.rmh-product-card__actions {
+    margin-top: auto !important;
+}
+
+.rmh-product-card__actions .rmh-btn {
+    width: 100% !important;
+    min-height: 40px !important;
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+}
+
+/* ==========================================================================
+   6. MOBILE BOTTOM NAVIGATION (FIXED & SAFE-AREA AWARE)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    body {
+        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    .rmh-mobile-nav {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+        padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+        background: #ffffff !important;
+        border-top: 1px solid #e2e8f0 !important;
+        box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.06) !important;
+        z-index: 9999 !important;
+        box-sizing: border-box !important;
+    }
+
+    .rmh-mobile-nav > a {
+        flex: 1 1 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 48px !important;
+        min-width: 44px !important;
+        padding: 6px 2px !important;
+        color: #64748b !important;
+        text-decoration: none !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        line-height: 1.2 !important;
+        position: relative !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+
+    .rmh-mobile-nav > a:hover,
+    .rmh-mobile-nav > a:focus-visible,
+    .rmh-mobile-nav > a[aria-current="page"] {
+        color: #007a48 !important;
+        text-decoration: none !important;
+    }
+
+    .rmh-mobile-nav > a svg {
+        width: 22px !important;
+        height: 22px !important;
+        stroke: currentColor !important;
+        stroke-width: 2px !important;
+        margin-bottom: 2px !important;
+        transition: transform 0.15s ease !important;
+    }
+
+    .rmh-mobile-nav > a[aria-current="page"] svg {
+        stroke: #007a48 !important;
+    }
+
+    .rmh-mobile-nav__cart-badge {
+        position: absolute !important;
+        top: 4px !important;
+        right: calc(50% - 18px) !important;
+        background: #dc2626 !important;
+        color: #ffffff !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        min-width: 17px !important;
+        height: 17px !important;
+        line-height: 17px !important;
+        border-radius: 9px !important;
+        text-align: center !important;
+        padding: 0 4px !important;
+    }
+
+    .rmh-mobile-nav__cart-badge[data-count="0"],
+    .rmh-mobile-nav__cart-badge:empty {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   7. FLOATING CART & MINI-CART DRAWER POSITIONING
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* Position ModernCart floating bubble above bottom navigation */
+    .moderncart-toggle-slide-out,
+    #moderncart-floating-cart {
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+        right: 14px !important;
+        left: auto !important;
+        z-index: 9995 !important;
+        width: 54px !important;
+        height: 54px !important;
+    }
+
+    .moderncart-floating-cart-button {
+        width: 54px !important;
+        height: 54px !important;
+    }
+
+    /* ModernCart drawer sits above bottom navigation and covers screen properly */
+    .moderncart-plugin.moderncart-modal {
+        z-index: 100000 !important;
+    }
+
+    .moderncart-default-slide-out {
+        max-width: 90vw !important;
+        padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    }
+}
+
+/* ==========================================================================
+   8. PHASE 1 — COMPACT MOBILE HEADER (reduce 128px → ~102px)
+   Reduces top sticky header height from ~128.6px to ~102px by tightening
+   padding from 10px 16px → 6px 12px and gap from 10px → 6px.
+   This reclaims ~26px of usable viewport on every page.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+    .rmh-site-header__inner {
+        padding: 6px 12px !important;
+        gap: 6px !important;
+        min-height: 0 !important;
+    }
+
+    /* Search bar margin already contributes ~6px; keep it but reduce slightly */
+    .rmh-site-header__inner .rmh-site-search {
+        margin: 2px 0 0 !important;
+    }
+}
+
+/* ==========================================================================
+   9. PHASE 2 — WHATSAPP TOUCH TARGET (34px → 44px minimum)
+   .rmh-header-whatsapp lives inside the off-canvas drawer on mobile.
+   It receives a min-height override to meet WCAG 2.5.5 / 2.5.8.
+   The rule in custom.css declares min-height: 34px — this overrides it.
+   The @media (max-width: 767px) in custom.css line 10552 sets min-height: 46px
+   already, but the inline wp-custom-css restores 34px — this block wins.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+    .rmh-header-whatsapp {
+        min-height: 46px !important;
+        padding: 10px 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+}
+
+/* ==========================================================================
+   10. PHASE 3 — ANNOUNCEMENT RIBBON LEGIBILITY (add min-height, not font-size)
+   Font-size was fixed directly in custom.css (0.68rem → 0.78rem).
+   This block ensures the ribbon is tall enough to display text and reinforces
+   strict overflow containment to prevent ghost scroll on iOS.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+    .rmh-announcement-ribbon {
+        min-height: 34px !important;
+        contain: strict !important;
+        overflow: clip !important;
+    }
+
+    /* Reinforce ribbon items legibility */
+    .rmh-announcement-ribbon__item {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        padding: 6px 0 !important;
+    }
+}
+
+/* ==========================================================================
+   11. PHASE 4 — OFF-CANVAS DRAWER: CONTAIN HEADER SCROLL-WIDTH
+   The drawer (translateX 105% offscreen) inflates #masthead scrollWidth to
+   744px, enabling rubber-band ghost scrolling on iOS. Adding contain: layout
+   to the sticky header prevents child overflow contributing to parent layout.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+    .rmh-site-header,
+    #masthead.site-header {
+        contain: layout paint !important;
+        overflow: clip !important;
+    }
+}
+
+/* ==========================================================================
+   12. PHASE 5 — SYNCHRONIZED SAFE-AREA BODY PADDING
+   Previously: body padding-bottom: 66px (static)
+   Now: body padding-bottom = nav visible height (62px) + safe-area
+   This prevents footer content from being hidden behind the bottom nav
+   on devices with home indicators (iPhone 12/13/14/15/16 etc.).
+   ========================================================================== */
+
+@media (max-width: 767px) {
+    body {
+        padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* Synchronized nav height: 62px content + safe-area padding-bottom */
+    .rmh-mobile-nav {
+        min-height: 0 !important;
+        height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* Float cart bubble repositioned above the 62px nav bar */
+    .moderncart-toggle-slide-out,
+    #moderncart-floating-cart {
+        bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
+
+/* ==========================================================================
+   13. PHASE 5B — HONEYPOT MODERNIZATION (eliminate -9999px ghost boundary)
+   The anti-spam honeypot uses left: -9999px which extends the virtual page
+   canvas far left, causing touch gesture normalization issues on Android.
+   Replace with accessible zero-clip pattern (invisible to users + ATs ignore).
+   ========================================================================== */
+
+.rmh-honeypot {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* ==========================================================================
+   14. RIBBON FONT-SIZE OVERRIDE (beats wp-custom-css inline 0.68rem)
+   The WordPress Customizer Additional CSS copies the 0.68rem rule into an
+   inline <style id="wp-custom-css"> block that loads AFTER all stylesheets,
+   giving it priority without !important. Use !important here to override it.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .rmh-announcement-ribbon {
+        font-size: 13px !important;
+    }
+    .rmh-announcement-ribbon__item {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+    }
+}
+
+
+/* ==========================================================================
+   15. MOBILE UX/UI OVERHAUL — PHASE 6
+   Comprehensive mobile readability, tap-target, and layout improvements.
+   Written: 2026-10-11
+
+   Priority fixes:
+   A. Typography — section labels, eyebrow badges, btn-light text too small
+   B. Tap targets — cart remove, pagination, quick-store button
+   C. Cart page — remove button, quantity stepper, totals table, CTAs
+   D. Shop page — sort select, product list items, result count
+   E. Checkout — form inputs 16px (prevent iOS zoom), GPS, WhatsApp section
+   F. Homepage hero — stack buttons on 480px, trust bar
+   G. Shop product rows — RMH epharmacy list
+   H. WooCommerce notices legibility
+   I. My Account tabs — finger-friendly nav
+   J. Global interactive element floor — all WC buttons ≥44px
+   ========================================================================== */
+
+/* ------------------------------------------------------------------
+   A. TYPOGRAPHY — Minimum readable font sizes on mobile
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    /* Section label pills: explicit 13px */
+    body.home .rmh-section-label,
+    .rmh-section-label {
+        font-size: 13px !important;
+        min-height: 26px !important;
+        line-height: 1.4 !important;
+        letter-spacing: 0.06em !important;
+    }
+
+    /* Hero eyebrow: explicit 13px */
+    .rmh-home-hero .rmh-eyebrow,
+    .rmh-eyebrow {
+        font-size: 13px !important;
+        min-height: 26px !important;
+        line-height: 1.4 !important;
+        letter-spacing: 0.1em !important;
+    }
+
+    /* Upload Prescription btn-light */
+    .rmh-btn.rmh-btn-light,
+    .rmh-btn-light {
+        font-size: 13px !important;
+        min-height: 44px !important;
+        padding: 10px 16px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* WooCommerce breadcrumb links */
+    .woocommerce-breadcrumb,
+    .woocommerce-breadcrumb a {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+    }
+
+    .woocommerce-breadcrumb a {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        padding: 6px 2px !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   B. TAP TARGETS
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    /* Cart remove button: 20x20 → 44x44px touch area */
+    .woocommerce-cart-form td.product-remove {
+        width: 50px !important;
+        min-width: 50px !important;
+        padding: 8px 4px !important;
+        vertical-align: middle !important;
+    }
+
+    .woocommerce-cart-form td.product-remove a.remove,
+    .woocommerce table.cart td.product-remove a.remove {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        border-radius: 50% !important;
+        background: #fff0f0 !important;
+        color: #dc2626 !important;
+        font-size: 22px !important;
+        line-height: 1 !important;
+        margin: 0 auto !important;
+        text-decoration: none !important;
+        transition: background 0.15s ease !important;
+    }
+
+    .woocommerce-cart-form td.product-remove a.remove:hover,
+    .woocommerce-cart-form td.product-remove a.remove:focus-visible {
+        background: #fee2e2 !important;
+        color: #b91c1c !important;
+    }
+
+    /* Pagination — 44×44px minimum */
+    .woocommerce-pagination ul.page-numbers li a.page-numbers,
+    .woocommerce-pagination ul.page-numbers li span.page-numbers {
+        min-width: 44px !important;
+        height: 44px !important;
+        font-size: 14px !important;
+        padding: 0 10px !important;
+    }
+
+    /* Quick store button */
+    .rmh-qs-btn {
+        min-height: 44px !important;
+        padding: 10px 16px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        font-size: 14px !important;
+    }
+
+    /* Cart quantity stepper */
+    .woocommerce-cart-form .quantity input[type="number"],
+    .woocommerce-cart .quantity input[type="number"] {
+        height: 44px !important;
+        min-height: 44px !important;
+        font-size: 16px !important;
+        text-align: center !important;
+        padding: 4px 8px !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+        min-width: 56px !important;
+        max-width: 72px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* View-all links */
+    .rmh-view-all {
+        min-height: 44px !important;
+        padding: 8px 4px !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   C. CART PAGE — layout polish
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    /* Cart product name */
+    .woocommerce-cart-form td.product-name a {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #1a202c !important;
+        line-height: 1.4 !important;
+        display: block !important;
+        padding: 4px 0 !important;
+    }
+
+    /* Price labels in cart */
+    .woocommerce-cart-form td.product-price,
+    .woocommerce-cart-form td.product-subtotal {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        color: #007a48 !important;
+    }
+
+    /* Coupon form clean mobile stack */
+    .woocommerce-cart-form .coupon {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+        margin-top: 12px !important;
+    }
+
+    .woocommerce-cart-form .coupon input#coupon_code {
+        width: 100% !important;
+        min-height: 48px !important;
+        font-size: 16px !important;
+        padding: 10px 14px !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+        box-sizing: border-box !important;
+    }
+
+    .woocommerce-cart-form .coupon button[name="apply_coupon"],
+    .woocommerce-cart-form .coupon .button {
+        width: 100% !important;
+        min-height: 48px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Update cart button */
+    .woocommerce-cart-form .actions .button[name="update_cart"],
+    .woocommerce-cart .actions .button {
+        width: 100% !important;
+        min-height: 48px !important;
+        font-size: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-top: 12px !important;
+    }
+
+    /* Proceed to Checkout button */
+    .wc-proceed-to-checkout .checkout-button,
+    .woocommerce .cart-collaterals .wc-proceed-to-checkout a.checkout-button {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        min-height: 52px !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        border-radius: 10px !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    /* Cart totals table */
+    .woocommerce .cart-collaterals .cart_totals table th,
+    .woocommerce .cart-collaterals .cart_totals table td {
+        font-size: 14px !important;
+        padding: 10px 8px !important;
+        vertical-align: middle !important;
+    }
+
+    .woocommerce .cart-collaterals .cart_totals table tr.order-total th,
+    .woocommerce .cart-collaterals .cart_totals table tr.order-total td {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #1a202c !important;
+    }
+
+    /* WhatsApp + Call CTA grid on cart */
+    .rmh-cart-cta-row,
+    .rmh-cart-whatsapp-cta {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        margin-top: 12px !important;
+    }
+
+    .rmh-cart-cta-row > *,
+    .rmh-cart-whatsapp-cta > * {
+        min-height: 52px !important;
+        font-size: 13px !important;
+        border-radius: 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 6px !important;
+        padding: 10px 12px !important;
+        font-weight: 700 !important;
+        line-height: 1.3 !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   D. SHOP PAGE — sort bar, result count
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    /* Sort select */
+    .woocommerce-ordering select.orderby {
+        height: 44px !important;
+        min-height: 44px !important;
+        font-size: 14px !important;
+        padding: 0 12px !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        background-color: #ffffff !important;
+    }
+
+    .woocommerce-ordering {
+        width: 100% !important;
+        margin-bottom: 16px !important;
+    }
+
+    /* Result count text */
+    .woocommerce-result-count {
+        font-size: 13px !important;
+        color: #64748b !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* Product title + price in WC default loop */
+    .woocommerce ul.products li.product .woocommerce-loop-product__title {
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        font-weight: 600 !important;
+    }
+
+    .woocommerce ul.products li.product .price {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        color: #007a48 !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   E. CHECKOUT PAGE — prevent iOS zoom (16px inputs), GPS, WhatsApp
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    /* Form labels */
+    .woocommerce-checkout .form-row label,
+    .woocommerce-checkout .form-row label span {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: #374151 !important;
+        margin-bottom: 5px !important;
+        display: block !important;
+    }
+
+    /* Inputs — 16px prevents iOS auto-zoom on focus */
+    .woocommerce-checkout input[type="text"],
+    .woocommerce-checkout input[type="email"],
+    .woocommerce-checkout input[type="tel"],
+    .woocommerce-checkout input[type="number"],
+    .woocommerce-checkout input[type="password"],
+    .woocommerce-checkout textarea,
+    .woocommerce-checkout select {
+        font-size: 16px !important;
+        min-height: 48px !important;
+        padding: 10px 14px !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+        line-height: 1.4 !important;
+    }
+
+    .woocommerce-checkout textarea {
+        min-height: 88px !important;
+    }
+
+    /* Section headings */
+    .woocommerce-billing-fields h3,
+    .woocommerce-shipping-fields h3,
+    #order_review_heading {
+        font-size: 17px !important;
+        font-weight: 700 !important;
+        margin-bottom: 16px !important;
+        color: #1a202c !important;
+    }
+
+    /* GPS location section */
+    #rmh-gps-section,
+    .rmh-gps-section {
+        background: #f0fdf4 !important;
+        border: 1px solid #bbf7d0 !important;
+        border-radius: 12px !important;
+        padding: 16px !important;
+        margin: 16px 0 !important;
+    }
+
+    #rmh-use-gps-btn,
+    .rmh-gps-btn,
+    button[id*="gps"] {
+        min-height: 48px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        border-radius: 10px !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+
+    /* Order review table on checkout */
+    .woocommerce-checkout-review-order-table {
+        font-size: 14px !important;
+        width: 100% !important;
+    }
+
+    .woocommerce-checkout-review-order-table th,
+    .woocommerce-checkout-review-order-table td {
+        padding: 10px 8px !important;
+        font-size: 14px !important;
+        vertical-align: middle !important;
+    }
+
+    .woocommerce-checkout-review-order-table tfoot tr.order-total th,
+    .woocommerce-checkout-review-order-table tfoot tr.order-total td {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+    }
+
+    /* Place Order button */
+    #place_order,
+    .woocommerce-checkout #payment #place_order {
+        min-height: 54px !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.03em !important;
+        border-radius: 10px !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* WhatsApp order section on checkout */
+    .rmh-checkout-whatsapp-section,
+    #rmh-checkout-whatsapp-section {
+        background: #f0fdf9 !important;
+        border: 1.5px solid #6ee7b7 !important;
+        border-radius: 14px !important;
+        padding: 18px 16px !important;
+        margin-top: 20px !important;
+    }
+
+    .rmh-checkout-whatsapp-section h3,
+    #rmh-checkout-whatsapp-section h3 {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #065f46 !important;
+        margin-bottom: 8px !important;
+    }
+
+    #rmh-send-whatsapp-order,
+    .rmh-send-whatsapp-btn,
+    a[id*="whatsapp"][href*="wa.me"],
+    button[id*="whatsapp"] {
+        min-height: 54px !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        border-radius: 10px !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   F. HOMEPAGE HERO — stack buttons on very small screens
+   ------------------------------------------------------------------ */
+@media (max-width: 480px) {
+
+    .rmh-home-hero .rmh-hero-buttons {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+
+    .rmh-home-hero .rmh-hero-buttons .rmh-btn {
+        width: 100% !important;
+        min-height: 50px !important;
+        font-size: 15px !important;
+        justify-content: center !important;
+    }
+
+    /* Hero trust items text */
+    .rmh-home-hero__trust-item {
+        font-size: 12px !important;
+    }
+
+    /* Section headings smaller viewport */
+    .rmh-section-heading h2 {
+        font-size: 20px !important;
+        line-height: 1.3 !important;
+    }
+
+    .rmh-section-subheading,
+    .rmh-section-heading p {
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   G. SHOP — RMH epharmacy product list rows
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    .rmh-epharmacy-product-row,
+    .rmh-product-list-item {
+        min-height: 80px !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+    }
+
+    .rmh-epharmacy-product-row .rmh-btn,
+    .rmh-product-list-item .rmh-btn {
+        min-height: 44px !important;
+        font-size: 13px !important;
+        padding: 8px 14px !important;
+        white-space: nowrap !important;
+    }
+
+    .rmh-epharmacy-product-row .rmh-product-meta,
+    .rmh-product-list-item .rmh-product-meta {
+        font-size: 12px !important;
+        color: #64748b !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   H. WOOCOMMERCE NOTICES — legibility
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    .woocommerce-notices-wrapper .woocommerce-message,
+    .woocommerce-notices-wrapper .woocommerce-error,
+    .woocommerce-notices-wrapper .woocommerce-info,
+    .woocommerce-message,
+    .woocommerce-error,
+    .woocommerce-info {
+        font-size: 14px !important;
+        padding: 14px 16px !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+        line-height: 1.5 !important;
+    }
+
+    .woocommerce-message .button,
+    .woocommerce-error .button,
+    .woocommerce-info .button {
+        min-height: 44px !important;
+        font-size: 14px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   I. MY ACCOUNT — tab nav + content
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    .woocommerce-account .woocommerce-MyAccount-navigation ul {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        padding: 0 !important;
+        list-style: none !important;
+        margin-bottom: 20px !important;
+    }
+
+    .woocommerce-account .woocommerce-MyAccount-navigation li a {
+        display: flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+        padding: 8px 16px !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        color: #374151 !important;
+        background: #ffffff !important;
+        transition: border-color 0.15s, color 0.15s !important;
+        white-space: nowrap !important;
+    }
+
+    .woocommerce-account .woocommerce-MyAccount-navigation li.is-active a,
+    .woocommerce-account .woocommerce-MyAccount-navigation li a:focus-visible,
+    .woocommerce-account .woocommerce-MyAccount-navigation li a:hover {
+        border-color: #007a48 !important;
+        color: #007a48 !important;
+        background: #f0fdf4 !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+   J. GLOBAL — WooCommerce button and select2 floor
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+
+    .woocommerce a.button,
+    .woocommerce button.button,
+    .woocommerce input.button,
+    .woocommerce #respond input#submit,
+    .woocommerce .button.alt {
+        min-height: 44px !important;
+        font-size: 14px !important;
+        padding: 10px 16px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Select2 dropdowns */
+    .select2-container--default .select2-selection--single {
+        min-height: 48px !important;
+        height: 48px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 48px !important;
+        font-size: 15px !important;
+        padding-left: 14px !important;
+        padding-right: 30px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 48px !important;
+    }
+}

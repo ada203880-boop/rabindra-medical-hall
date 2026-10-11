@@ -1,0 +1,17 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node / Scratch
+node_modules/
+*.log
+*.tmp
+*.bak
+*.backup*
+
+# WordPress Core & Sensitive files (never commit)
+wp-config.php
+*.sql
+*.tar.gz
+*.zip

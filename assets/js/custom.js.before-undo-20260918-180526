@@ -1,0 +1,657 @@
+(function () {
+    'use strict';
+
+    document.documentElement.classList.add('rmh-js');
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            var targetId = link.getAttribute('href').slice(1);
+            var target = document.getElementById(targetId);
+
+            if (!target) {
+                return;
+            }
+
+            event.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    document.querySelectorAll('.rmh-home-hero a[href$="#rmh-prescription"]').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            var target = document.getElementById('rmh-prescription');
+
+            if (!target) {
+                return;
+            }
+
+            event.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.history.replaceState(null, '', link.href);
+        });
+    });
+
+    // Intersection Observer for scroll animations
+    function initScrollAnimations() {
+        if (!('IntersectionObserver' in window)) {
+            return;
+        }
+
+        var animatedSections = document.querySelectorAll(
+            '.rmh-section-heading, .rmh-trust-item, .rmh-faq-list details, .rmh-promotion-banner, .rmh-category, .rmh-product-card, .rmh-tools-card'
+        );
+
+        animatedSections.forEach(function (el) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+
+        var observer = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+                rootMargin: '0px 0px -40px 0px',
+            }
+        );
+
+        animatedSections.forEach(function (el) {
+            observer.observe(el);
+        });
+    }
+
+    // Modern search experience
+    function initModernSearch() {
+        var searchForm = document.querySelector('.rmh-site-search');
+        var searchInput = document.querySelector('.rmh-site-search input[type="search"]');
+        var searchResults = document.querySelector('.rmh-search-results');
+
+        if (!searchForm || !searchInput || !searchResults) {
+            return;
+        }
+
+        var debounceTimer = null;
+        var currentFocus = -1;
+
+        searchInput.addEventListener('input', function () {
+            var query = searchInput.value.trim();
+
+            clearTimeout(debounceTimer);
+
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            debounceTimer = setTimeout(function () {
+                fetchProducts(query);
+            }, 250);
+        });
+
+        searchInput.addEventListener('keydown', function (event) {
+            var items = searchResults.querySelectorAll('.rmh-search-item');
+
+            if (event.key === 'ArrowDown') {
+                currentFocus++;
+                highlightItem(items, currentFocus);
+                event.preventDefault();
+            } else if (event.key === 'ArrowUp') {
+                currentFocus--;
+                highlightItem(items, currentFocus);
+                event.preventDefault();
+            } else if (event.key === 'Enter' && currentFocus >= 0 && items[currentFocus]) {
+                items[currentFocus].click();
+                event.preventDefault();
+            } else if (event.key === 'Escape') {
+                searchResults.innerHTML = '';
+                searchResults.style.display = 'none';
+                searchInput.blur();
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!searchForm.contains(event.target)) {
+                searchResults.innerHTML = '';
+                searchResults.style.display = 'none';
+            }
+        });
+
+        function fetchProducts(query) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/?s=' + encodeURIComponent(query) + '&post_type=product&rmh_search=1', true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(xhr.responseText, 'text/html');
+                    var products = doc.querySelectorAll('.rmh-product-card');
+
+                    if (products.length === 0) {
+                        searchResults.innerHTML = '<div class="rmh-search-item">No products found</div>';
+                        searchResults.style.display = 'block';
+                        return;
+                    }
+
+                    var html = '';
+                    products.forEach(function (product) {
+                        var title = product.querySelector('h3 a');
+                        var image = product.querySelector('.rmh-product-image img');
+                        var price = product.querySelector('.price');
+                        var link = title ? title.href : '#';
+
+                        html += '<a class="rmh-search-item" href="' + link + '">';
+                        if (image) {
+                            html += '<img class="rmh-search-thumb" src="' + image.src + '" alt="">';
+                        }
+                        html += '<div class="rmh-search-info">';
+                        if (title) {
+                            html += '<div class="rmh-search-title">' + title.textContent.trim() + '</div>';
+                        }
+                        if (price) {
+                            html += '<div class="rmh-search-price">' + price.textContent.trim() + '</div>';
+                        }
+                        html += '</div>';
+                        html += '<span class="rmh-btn-search-view">View</span>';
+                        html += '</a>';
+                    });
+
+                    searchResults.innerHTML = html;
+                    searchResults.style.display = 'block';
+                    currentFocus = -1;
+                }
+            };
+
+            xhr.send();
+        }
+
+        function highlightItem(items, index) {
+            if (index >= items.length) {
+                currentFocus = -1;
+            } else if (index < -1) {
+                currentFocus = items.length - 1;
+            }
+
+            items.forEach(function (item, i) {
+                if (i === currentFocus) {
+                    item.style.background = '#f5fbf7';
+                    item.scrollIntoView({ block: 'nearest' });
+                } else {
+                    item.style.background = '';
+                }
+            });
+        }
+    }
+
+    // Add to cart feedback
+    function initCartFeedback() {
+        document.addEventListener('click', function (event) {
+            var addToCartBtn = event.target.closest('.add_to_cart_button');
+
+            if (!addToCartBtn) {
+                return;
+            }
+
+            var originalText = addToCartBtn.textContent;
+            addToCartBtn.textContent = 'Added!';
+            addToCartBtn.style.background = '#08754f';
+            addToCartBtn.disabled = true;
+
+            setTimeout(function () {
+                addToCartBtn.textContent = originalText;
+                addToCartBtn.style.background = '';
+                addToCartBtn.disabled = false;
+            }, 1500);
+        });
+    }
+
+    // Mobile bottom navigation
+    function initMobileNav() {
+        if (window.innerWidth > 768) {
+            return;
+        }
+
+        var existingNav = document.querySelector('.rmh-mobile-nav');
+
+        if (existingNav) {
+            return;
+        }
+
+        var cartCount = document.querySelector('.rmh-cart-count');
+        var cartCountText = cartCount ? cartCount.textContent.trim() : '0';
+
+        var nav = document.createElement('nav');
+        nav.className = 'rmh-mobile-nav';
+        nav.setAttribute('aria-label', 'Mobile navigation');
+
+        var homeActive = document.querySelector('.home') || document.querySelector('.rmh-site-header__brand') ? ' aria-current="page"' : '';
+        var searchActive = document.querySelector('.rmh-site-search') ? '' : '';
+        var cartActive = document.querySelector('.rmh-site-header__cart') ? '' : '';
+
+        nav.innerHTML = '<a href="/" class="rmh-mobile-nav__home"' + homeActive + '>' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' +
+            '<span>Home</span>' +
+            '</a>' +
+            '<a href="/shop/" class="rmh-mobile-nav__categories">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' +
+            '<span>Categories</span>' +
+            '</a>' +
+            '<a href="/#rmh-popular-categories" class="rmh-mobile-nav__search">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+            '<span>Search</span>' +
+            '</a>' +
+            '<a href="' + (document.querySelector('.rmh-site-header__cart') ? document.querySelector('.rmh-site-header__cart').href : '/cart/') + '" class="rmh-mobile-nav__cart" style="position:relative;">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+            '<span>Cart</span>' +
+            '<span class="rmh-mobile-nav__cart-badge">' + cartCountText + '</span>' +
+            '</a>' +
+            '<a href="' + (document.querySelector('.rmh-site-header__action--account') ? document.querySelector('.rmh-site-header__action--account').href : '/my-account/') + '" class="rmh-mobile-nav__account">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+            '<span>Account</span>' +
+            '</a>';
+
+        document.body.appendChild(nav);
+
+        // Update cart count on AJAX add to cart
+        if (typeof wc_cart_fragments_params !== 'undefined') {
+            jQuery(document.body).on('added_to_cart removed_from_cart', function () {
+                var newCount = document.querySelector('.rmh-cart-count');
+                var badge = nav.querySelector('.rmh-mobile-nav__cart-badge');
+                if (newCount && badge) {
+                    badge.textContent = newCount.textContent.trim();
+                }
+            });
+        }
+
+        // Also watch for cart count changes via MutationObserver
+        if (cartCount) {
+            var observer = new MutationObserver(function () {
+                var badge = nav.querySelector('.rmh-mobile-nav__cart-badge');
+                if (badge) {
+                    badge.textContent = cartCount.textContent.trim();
+                }
+            });
+            observer.observe(cartCount, { childList: true, characterData: true, subtree: true });
+        }
+    }
+
+    function closeMenu(header, toggle) {
+        header.classList.remove('is-menu-open');
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function initStoreView(showcase) {
+        var controls = showcase.querySelectorAll('[data-rmh-direction]');
+        var visual = showcase.querySelector('.rmh-360-showcase__visual');
+        var badge = showcase.querySelector('.rmh-360-badge');
+        var view = 0;
+
+        if (!controls.length || !visual || !badge) {
+            return;
+        }
+
+        controls.forEach(function (control) {
+            control.addEventListener('click', function () {
+                view = control.getAttribute('data-rmh-direction') === 'next' ? view + 1 : view - 1;
+                view = (view + 8) % 8;
+                showcase.setAttribute('data-rmh-view', String(view));
+                visual.style.setProperty('--rmh-view-rotation', String(view * 45) + 'deg');
+                badge.textContent = '360° View ' + String(view + 1);
+            });
+        });
+    }
+
+    function initPrescriptionCapture() {
+        var form = document.getElementById('rmhPrescriptionForm');
+        var fileInput = document.getElementById('prescriptionFile');
+        var cameraInput = document.getElementById('rmhPrescriptionCamera');
+        var status = document.getElementById('rmh-prescription-file-status');
+
+        if (!form || !fileInput || !cameraInput || !status) {
+            return;
+        }
+
+        function syncInputs(source, other) {
+            if (!source.files.length) {
+                return;
+            }
+
+            other.value = '';
+            status.textContent = source.files[0].name;
+        }
+
+        fileInput.addEventListener('change', function () {
+            syncInputs(fileInput, cameraInput);
+        });
+
+        cameraInput.addEventListener('change', function () {
+            syncInputs(cameraInput, fileInput);
+        });
+
+        form.addEventListener('submit', function () {
+            var submit = form.querySelector('button[type="submit"]');
+
+            if (!form.checkValidity() || (!fileInput.files.length && !cameraInput.files.length)) {
+                return;
+            }
+
+            if (submit) {
+                submit.disabled = true;
+                submit.setAttribute('aria-busy', 'true');
+            }
+
+            status.textContent = 'Uploading prescription...';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var header = document.querySelector('.rmh-site-header');
+
+        initScrollAnimations();
+        initModernSearch();
+        initCartFeedback();
+        initMobileNav();
+        initDeliveryLocationModal();
+
+        document.querySelectorAll('.rmh-360-showcase').forEach(initStoreView);
+        initPrescriptionCapture();
+
+        if (!header) {
+            return;
+        }
+
+        var toggle = header.querySelector('.rmh-menu-toggle');
+        var nav = header.querySelector('#rmh-primary-navigation');
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        toggle.addEventListener('click', function () {
+            var isOpen = header.classList.toggle('is-menu-open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        nav.addEventListener('click', function (event) {
+            if (event.target.closest('a')) {
+                closeMenu(header, toggle);
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!header.contains(event.target) && header.classList.contains('is-menu-open')) {
+                closeMenu(header, toggle);
+            }
+        });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && header.classList.contains('is-menu-open')) {
+            closeMenu(header, toggle);
+            toggle.focus();
+        }
+    });
+
+    // Ensure rmhData uses the current WhatsApp number.
+    if (typeof window.rmhData !== 'undefined') {
+        window.rmhData.whatsappUrl = 'https://wa.me/917205859117?text=Hello%20Rabindra%20Medical%20Hall%2C%20I%20would%20like%20to%20place%20an%20order.';
+    }
+
+    // Delivery location modal logic.
+    function initDeliveryLocationModal() {
+        var modalBackdrop = document.getElementById('rmhLocationModalBackdrop');
+        var modal = document.getElementById('rmhLocationModal');
+        var closeBtn = document.getElementById('rmhLocationModalClose');
+        var tabGps = document.getElementById('rmhTabGps');
+        var tabManual = document.getElementById('rmhTabManual');
+        var panelGps = document.getElementById('rmhPanelGps');
+        var panelManual = document.getElementById('rmhPanelManual');
+        var checkGpsBtn = document.getElementById('rmhCheckGpsBtn');
+        var switchToManualBtn = document.getElementById('rmhSwitchToManualBtn');
+        var errorManualBtn = document.getElementById('rmhErrorManualBtn');
+        var gpsRetryBtn = document.getElementById('rmhGpsRetryBtn');
+        var gpsChangeBtn = document.getElementById('rmhGpsChangeBtn');
+        var manualForm = document.getElementById('rmhManualAddressForm');
+        var manualFeedback = document.getElementById('rmhManualFeedback');
+        var triggerButtons = [
+            document.getElementById('rmhHeaderLocationBadge'),
+            document.getElementById('rmhStepLocationBtn')
+        ].filter(Boolean);
+
+        if (!modalBackdrop || !modal) {
+            return;
+        }
+
+        var storeLat = 20.4625;
+        var storeLng = 85.8828;
+        var maxRadiusKm = 10;
+        var allowedPostcodes = ['753012', '753001', '753002', '753003'];
+
+        if (typeof window.rmhData !== 'undefined') {
+            if (window.rmhData.storeLat) storeLat = parseFloat(window.rmhData.storeLat);
+            if (window.rmhData.storeLng) storeLng = parseFloat(window.rmhData.storeLng);
+            if (window.rmhData.maxRadiusKm) maxRadiusKm = parseFloat(window.rmhData.maxRadiusKm);
+            if (window.rmhData.allowedPostcodes && Array.isArray(window.rmhData.allowedPostcodes)) {
+                allowedPostcodes = window.rmhData.allowedPostcodes;
+            }
+        }
+
+        function openModal() {
+            modalBackdrop.hidden = false;
+            modalBackdrop.classList.add('is-visible');
+            document.body.style.overflow = 'hidden';
+            modal.setAttribute('tabindex', '-1');
+            modal.focus();
+            resetStates();
+        }
+
+        function closeModal() {
+            modalBackdrop.classList.remove('is-visible');
+            document.body.style.overflow = '';
+            setTimeout(function () {
+                modalBackdrop.hidden = true;
+            }, 300);
+        }
+
+        function resetStates() {
+            var states = modal.querySelectorAll('.rmh-loc-state');
+            states.forEach(function (s) { s.classList.remove('is-active'); });
+            var initial = document.getElementById('rmhGpsInitialState');
+            if (initial) initial.classList.add('is-active');
+
+            var panels = modal.querySelectorAll('.rmh-tab-panel');
+            panels.forEach(function (p) { p.hidden = true; p.classList.remove('is-active'); });
+            if (panelGps) { panelGps.hidden = false; panelGps.classList.add('is-active'); }
+            if (panelManual) { panelManual.hidden = true; panelManual.classList.remove('is-active'); }
+            if (tabGps) { tabGps.classList.add('is-active'); tabGps.setAttribute('aria-selected', 'true'); }
+            if (tabManual) { tabManual.classList.remove('is-active'); tabManual.setAttribute('aria-selected', 'false'); }
+            if (manualFeedback) { manualFeedback.hidden = true; manualFeedback.classList.remove('is-success', 'is-error'); }
+            if (manualForm) manualForm.reset();
+        }
+
+        function haversineDistance(lat1, lng1, lat2, lng2) {
+            var R = 6371;
+            var dLat = (lat2 - lat1) * Math.PI / 180;
+            var dLng = (lng2 - lng1) * Math.PI / 180;
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function showState(stateId) {
+            var states = modal.querySelectorAll('.rmh-loc-state');
+            states.forEach(function (s) { s.classList.remove('is-active'); });
+            var state = document.getElementById(stateId);
+            if (state) state.classList.add('is-active');
+        }
+
+        function setManualFeedback(message, type) {
+            if (!manualFeedback) return;
+            manualFeedback.hidden = false;
+            manualFeedback.textContent = message;
+            manualFeedback.classList.remove('is-success', 'is-error');
+            manualFeedback.classList.add(type === 'success' ? 'is-success' : 'is-error');
+        }
+
+        function checkGpsEligibility(lat, lng) {
+            var distance = haversineDistance(lat, lng, storeLat, storeLng);
+            var distanceText = document.getElementById('rmhGpsDistanceText');
+            if (distanceText) {
+                distanceText.textContent = '\uD83D\uDCCD ' + distance.toFixed(1) + ' km from pharmacy';
+            }
+
+            if (distance <= maxRadiusKm) {
+                showState('rmhGpsEligibleState');
+            } else {
+                var outsideDistanceText = document.getElementById('rmhGpsOutsideDistanceText');
+                if (outsideDistanceText) {
+                    outsideDistanceText.textContent = '\uD83D\uDCCD ' + distance.toFixed(1) + ' km from pharmacy';
+                }
+                showState('rmhGpsOutsideState');
+            }
+        }
+
+        function handleGpsSuccess(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            checkGpsEligibility(lat, lng);
+        }
+
+        function handleGpsError(error) {
+            var errorTitle = document.getElementById('rmhGpsErrorTitle');
+            var errorDesc = document.getElementById('rmhGpsErrorDesc');
+            if (errorTitle) errorTitle.textContent = 'Location Permission Not Granted';
+            if (errorDesc) errorDesc.textContent = 'No problem at all! You can manually enter your delivery address or PIN code below.';
+            showState('rmhGpsErrorState');
+        }
+
+        if (checkGpsBtn) {
+            checkGpsBtn.addEventListener('click', function () {
+                showState('rmhGpsLoadingState');
+                if (!navigator.geolocation) {
+                    handleGpsError({ code: 0, message: 'Geolocation not supported' });
+                    return;
+                }
+                navigator.geolocation.getCurrentPosition(handleGpsSuccess, handleGpsError, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                });
+            });
+        }
+
+        if (switchToManualBtn) {
+            switchToManualBtn.addEventListener('click', function () {
+                if (panelManual) { panelManual.hidden = false; panelManual.classList.add('is-active'); }
+                if (panelGps) { panelGps.hidden = true; panelGps.classList.remove('is-active'); }
+                if (tabManual) { tabManual.classList.add('is-active'); tabManual.setAttribute('aria-selected', 'true'); }
+                if (tabGps) { tabGps.classList.remove('is-active'); tabGps.setAttribute('aria-selected', 'false'); }
+            });
+        }
+
+        if (errorManualBtn) {
+            errorManualBtn.addEventListener('click', function () {
+                if (panelManual) { panelManual.hidden = false; panelManual.classList.add('is-active'); }
+                if (panelGps) { panelGps.hidden = true; panelGps.classList.remove('is-active'); }
+                if (tabManual) { tabManual.classList.add('is-active'); tabManual.setAttribute('aria-selected', 'true'); }
+                if (tabGps) { tabGps.classList.remove('is-active'); tabGps.setAttribute('aria-selected', 'false'); }
+            });
+        }
+
+        if (gpsRetryBtn) {
+            gpsRetryBtn.addEventListener('click', function () {
+                showState('rmhGpsInitialState');
+            });
+        }
+
+        if (gpsChangeBtn) {
+            gpsChangeBtn.addEventListener('click', function () {
+                showState('rmhGpsInitialState');
+            });
+        }
+
+        if (tabGps) {
+            tabGps.addEventListener('click', function () {
+                if (panelGps) { panelGps.hidden = false; panelGps.classList.add('is-active'); }
+                if (panelManual) { panelManual.hidden = true; panelManual.classList.remove('is-active'); }
+                tabGps.classList.add('is-active');
+                tabGps.setAttribute('aria-selected', 'true');
+                if (tabManual) {
+                    tabManual.classList.remove('is-active');
+                    tabManual.setAttribute('aria-selected', 'false');
+                }
+                showState('rmhGpsInitialState');
+            });
+        }
+
+        if (tabManual) {
+            tabManual.addEventListener('click', function () {
+                if (panelManual) { panelManual.hidden = false; panelManual.classList.add('is-active'); }
+                if (panelGps) { panelGps.hidden = true; panelGps.classList.remove('is-active'); }
+                tabManual.classList.add('is-active');
+                tabManual.setAttribute('aria-selected', 'true');
+                if (tabGps) {
+                    tabGps.classList.remove('is-active');
+                    tabGps.setAttribute('aria-selected', 'false');
+                }
+            });
+        }
+
+        if (manualForm) {
+            manualForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var postcode = document.getElementById('rmhManualPostcode');
+                var pin = postcode ? postcode.value.trim().toUpperCase() : '';
+                var normalizedPin = pin.replace(/[^A-Z0-9]/g, '');
+
+                if (!normalizedPin) {
+                    setManualFeedback('Please enter a valid PIN code.', 'error');
+                    return;
+                }
+
+                if (allowedPostcodes.indexOf(normalizedPin) === -1) {
+                    setManualFeedback('Delivery is not available for PIN code ' + normalizedPin + '. Please use a supported address or choose regular delivery at checkout.', 'error');
+                    return;
+                }
+
+                setManualFeedback('PIN code ' + normalizedPin + ' is within our delivery area. You can proceed with instant delivery at checkout.', 'success');
+            });
+        }
+
+        triggerButtons.forEach(function (btn) {
+            if (!btn) return;
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                openModal();
+            });
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+
+        if (modalBackdrop) {
+            modalBackdrop.addEventListener('click', function (e) {
+                if (e.target === modalBackdrop) {
+                    closeModal();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modalBackdrop.classList.contains('is-visible')) {
+                closeModal();
+            }
+        });
+    }
+}());

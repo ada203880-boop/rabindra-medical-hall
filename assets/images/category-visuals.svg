@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="medicine" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <rect x="35" y="33" width="90" height="54" rx="10" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <circle cx="57" cy="53" r="9" fill="#cfe9df" stroke="#007a53" stroke-width="3"/>
+        <circle cx="81" cy="53" r="9" fill="#cfe9df" stroke="#007a53" stroke-width="3"/>
+        <circle cx="105" cy="53" r="9" fill="#cfe9df" stroke="#007a53" stroke-width="3"/>
+        <circle cx="69" cy="73" r="9" fill="#cfe9df" stroke="#007a53" stroke-width="3"/>
+        <circle cx="93" cy="73" r="9" fill="#cfe9df" stroke="#007a53" stroke-width="3"/>
+    </symbol>
+    <symbol id="supplement" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <rect x="52" y="29" width="56" height="65" rx="10" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <rect x="48" y="24" width="64" height="14" rx="6" fill="#d7eee5" stroke="#007a53" stroke-width="4"/>
+        <path d="M64 61h32M64 72h24" fill="none" stroke="#007a53" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="device" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <rect x="42" y="30" width="76" height="55" rx="9" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <rect x="55" y="42" width="50" height="22" rx="4" fill="#d7eee5"/>
+        <path d="M61 53h14l6-8 9 15 7-7h8" fill="none" stroke="#007a53" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M58 86h44" stroke="#007a53" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="nutrition" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <path d="M42 54h76c-4 29-16 42-38 42S46 83 42 54Z" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <path d="M37 53h86" stroke="#007a53" stroke-width="5" stroke-linecap="round"/>
+        <path d="M80 49c-4-18 7-25 17-28M80 46c-7-12-17-15-26-13" fill="none" stroke="#007a53" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="wellness" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <path d="M80 91 43 57c-20-20 8-48 29-23l8 9 8-9c21-25 49 3 29 23L80 91Z" fill="#d7eee5" stroke="#007a53" stroke-width="4" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="skin" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <path d="M80 24c-13 19-29 34-29 50a29 29 0 0 0 58 0c0-16-16-31-29-50Z" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <path d="M65 77c7 8 17 10 29 6" fill="none" stroke="#007a53" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="hair" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <path d="M52 90c-4-38 10-62 28-62s32 24 28 62" fill="#d7eee5" stroke="#007a53" stroke-width="4"/>
+        <path d="M80 29c-15 17-19 36-11 60M80 29c15 17 19 36 11 60M80 29v62" fill="none" stroke="#007a53" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="care" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <circle cx="80" cy="57" r="31" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <path d="M80 38v38M61 57h38" stroke="#007a53" stroke-width="7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="diabetes" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <rect x="48" y="34" width="64" height="48" rx="8" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <circle cx="80" cy="58" r="12" fill="#d7eee5" stroke="#007a53" stroke-width="3"/>
+        <path d="M80 52v12M74 58h12M61 91h38" stroke="#007a53" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="baby" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <circle cx="80" cy="59" r="31" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <circle cx="69" cy="55" r="4" fill="#007a53"/>
+        <circle cx="91" cy="55" r="4" fill="#007a53"/>
+        <path d="M70 69c7 7 13 7 20 0M49 39l10-13 12 9M111 39l-10-13-12 9" fill="none" stroke="#007a53" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="personal" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <rect x="57" y="36" width="46" height="54" rx="8" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <path d="M66 36v-7h28v7M66 55h28M66 68h20" fill="none" stroke="#007a53" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="first-aid" viewBox="0 0 160 120">
+        <rect width="160" height="120" rx="12" fill="#f5f8f7"/>
+        <rect x="40" y="40" width="80" height="49" rx="8" fill="#fff" stroke="#007a53" stroke-width="4"/>
+        <path d="M64 40v-9h32v9M80 51v27M67 65h26" fill="none" stroke="#007a53" stroke-width="6" stroke-linecap="round"/>
+    </symbol>
+</svg>

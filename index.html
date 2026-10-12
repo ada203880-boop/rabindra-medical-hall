@@ -371,7 +371,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 /*# sourceURL=moderncart-cart-css-inline-css */
 </style>
 <link rel="stylesheet" id="astra-parent-style-css" href="#wp-content/themes/astra/style.css?ver=1.0.0" media="all">
-<link rel="stylesheet" id="rmh-custom-css-css" href="assets/css/custom.css?ver=1791696345" media="all">
+<link rel="stylesheet" id="rmh-custom-css-css" href="assets/css/custom.css?ver=20261012-visual-fixes" media="all">
 <link rel="stylesheet" id="rmh-mobile-images-css" href="assets/css/rmh-mobile-images.css?ver=1791634631" media="all">
 <script id="jquery-core-js" src="#wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
 <script id="jquery-migrate-js" src="#wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
@@ -3350,11 +3350,11 @@ textarea:focus-visible,
 }
 
 .rmh-tool-whatsapp {
-    background: #eefaf4 !important;
+    background: #f0f8f2 !important;
 }
 
 .rmh-tool-phone {
-    background: #fff4ed !important;
+    background: #eff7f8 !important;
 }
 
 @media (min-width: 1101px) {
@@ -7468,7 +7468,7 @@ body.rmh-modal-open {
                     <span>PHARMACY SUPPORT</span>
                     <h3>Call Pharmacy</h3>
                     <p>Speak with our pharmacy team for order assistance.</p>
-                    <strong>8895991117</strong>
+                    <strong class="rmh-tool-phone__action">Tap to call</strong>
                 </div>
             </a>
         </div>
@@ -7924,6 +7924,120 @@ Cart Button with 0 items" aria-haspopup="dialog" aria-expanded="false" aria-cont
 </button>
 <p class="moderncart-floating-cart-button-notification moderncart-add-to-cart-notification" style="display: none;">Added to cart</p>
 </div>
+
+<style id="rmh-github-pages-visual-fixes">
+body.home .rmh-tool-whatsapp,
+.rmh-tool-whatsapp {
+    background: #f0f8f2 !important;
+    border-color: #cfe8d6 !important;
+}
+
+body.home .rmh-tool-phone,
+.rmh-tool-phone {
+    background: #eff7f8 !important;
+    border-color: #cde5e8 !important;
+}
+
+body.home .rmh-promo-card:nth-child(2) {
+    background: #f0f8f2 !important;
+    border-color: #cfe8d6 !important;
+}
+
+body.home .rmh-promo-card:nth-child(3) {
+    background: #f1f6ef !important;
+    border-color: #d4e6cf !important;
+}
+
+body.home .rmh-home-prescription-section,
+body.home .rmh-step-card:nth-child(1) {
+    background: #f3f1f8 !important;
+    border-color: #dfd9ec !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(1) {
+    background: #f0f8f2 !important;
+    border-color: #cfe8d6 !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(2) {
+    background: #f1f6ef !important;
+    border-color: #d4e6cf !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(4) {
+    background: #edf7f5 !important;
+    border-color: #cce5df !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(5),
+body.home .rmh-delivery-card {
+    background: #f1f6ef !important;
+    border-color: #d4e6cf !important;
+}
+
+body.home .rmh-find-store,
+body.home .rmh-step-card:nth-child(4) {
+    background: #fff8ee !important;
+    border-color: #f2dfc0 !important;
+}
+
+body.home .rmh-step-card:nth-child(2) {
+    background: #f0f5fa !important;
+    border-color: #d3e2ef !important;
+}
+
+body.home .rmh-step-card:nth-child(3) {
+    background: #edf7f5 !important;
+    border-color: #cce5df !important;
+}
+
+#moderncart-floating-cart,
+.moderncart-toggle-slide-out {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+#moderncart-floating-cart::before,
+#moderncart-floating-cart::after,
+.moderncart-toggle-slide-out::before,
+.moderncart-toggle-slide-out::after {
+    display: none !important;
+    content: none !important;
+}
+
+#moderncart-floating-cart button,
+.moderncart-floating-cart-button {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid #dcebe2 !important;
+    box-shadow: 0 4px 12px rgba(16, 37, 27, 0.12) !important;
+    color: #007a48 !important;
+    filter: none !important;
+}
+
+#moderncart-floating-cart .moderncart-floating-cart-icon,
+#moderncart-floating-cart .moderncart-floating-cart-icon svg,
+#moderncart-floating-cart .moderncart-floating-cart-icon svg path {
+    color: #007a48 !important;
+    fill: currentColor !important;
+}
+
+#moderncart-floating-cart .moderncart-floating-cart-count {
+    min-width: 18px !important;
+    height: 18px !important;
+    border-radius: 999px !important;
+    background: #007a48 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+</style>
 
 <div id="moderncart-slide-out-modal" class="moderncart-plugin moderncart-modal moderncart-cart-style-slideout moderncart-recommendation-style-style1 moderncart-cart-theme-style1 moderncart-slide-right" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Shopping Cart">
 	

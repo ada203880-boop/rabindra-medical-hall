@@ -2377,7 +2377,7 @@ input#modalRxCamera {
     }
 
     .rmh-tool-phone .rmh-tool-content strong {
-        color: #2563eb !important;
+        color: #087a49 !important;
     }
 
     /* Prescription service card and form */
@@ -2541,3 +2541,56 @@ body {
     padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
+/* Final GitHub Pages visual fixes: keep the floating cart restrained. */
+#moderncart-floating-cart,
+.moderncart-toggle-slide-out {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+#moderncart-floating-cart::before,
+#moderncart-floating-cart::after,
+.moderncart-toggle-slide-out::before,
+.moderncart-toggle-slide-out::after {
+    display: none !important;
+    content: none !important;
+}
+
+#moderncart-floating-cart button,
+.moderncart-floating-cart-button {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid #dcebe2 !important;
+    box-shadow: 0 4px 12px rgba(16, 37, 27, 0.12) !important;
+    color: #007a48 !important;
+    filter: none !important;
+}
+
+#moderncart-floating-cart button:hover,
+.moderncart-floating-cart-button:hover {
+    background: #ffffff !important;
+    box-shadow: 0 5px 14px rgba(16, 37, 27, 0.14) !important;
+}
+
+#moderncart-floating-cart .moderncart-floating-cart-icon,
+#moderncart-floating-cart .moderncart-floating-cart-icon svg,
+#moderncart-floating-cart .moderncart-floating-cart-icon svg path {
+    color: #007a48 !important;
+    fill: currentColor !important;
+}
+
+#moderncart-floating-cart .moderncart-floating-cart-count {
+    min-width: 18px !important;
+    height: 18px !important;
+    border-radius: 999px !important;
+    background: #007a48 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}

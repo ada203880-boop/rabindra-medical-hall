@@ -11406,7 +11406,7 @@ body.home .rmh-tool-card,
 }
 
 .rmh-tool-phone {
-    background: #fff8f3 !important;
+    background: #eff7f8 !important;
     border-color: #fbdccb !important;
 }
 
@@ -11581,6 +11581,71 @@ body.home .rmh-tool-card,
     height: auto !important;
 }
 
+body.home .rmh-tool-whatsapp,
+.rmh-tool-whatsapp {
+    background: #f0f8f2 !important;
+    border-color: #cfe8d6 !important;
+}
+
+body.home .rmh-tool-phone,
+.rmh-tool-phone {
+    background: #eff7f8 !important;
+    border-color: #cde5e8 !important;
+}
+
+body.home .rmh-promo-card:nth-child(2) {
+    background: #f0f8f2 !important;
+    border-color: #cfe8d6 !important;
+}
+
+body.home .rmh-promo-card:nth-child(3) {
+    background: #f1f6ef !important;
+    border-color: #d4e6cf !important;
+}
+
+body.home .rmh-home-prescription-section,
+body.home .rmh-step-card:nth-child(1) {
+    background: #f3f1f8 !important;
+    border-color: #dfd9ec !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(1) {
+    background: #f0f8f2 !important;
+    border-color: #cfe8d6 !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(2) {
+    background: #f1f6ef !important;
+    border-color: #d4e6cf !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(4) {
+    background: #edf7f5 !important;
+    border-color: #cce5df !important;
+}
+
+body.home .rmh-home-trust .rmh-trust-item:nth-child(5),
+body.home .rmh-delivery-card {
+    background: #f1f6ef !important;
+    border-color: #d4e6cf !important;
+}
+
+body.home .rmh-find-store,
+body.home .rmh-step-card:nth-child(4) {
+    background: #fff8ee !important;
+    border-color: #f2dfc0 !important;
+}
+
+body.home .rmh-step-card:nth-child(2) {
+    background: #f0f5fa !important;
+    border-color: #d3e2ef !important;
+}
+
+body.home .rmh-step-card:nth-child(3) {
+    background: #edf7f5 !important;
+    border-color: #cce5df !important;
+}
+
 @media (max-width: 1024px) {
     .rmh-steps-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -11669,6 +11734,66 @@ body.home .rmh-tool-card,
 }
 
 /* ── 10. MOBILE BOTTOM NAVIGATION & FLOATING CONTROLS COORDINATION ── */
+.moderncart-toggle-slide-out,
+#moderncart-floating-cart {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+.moderncart-toggle-slide-out::before,
+.moderncart-toggle-slide-out::after,
+#moderncart-floating-cart::before,
+#moderncart-floating-cart::after {
+    display: none !important;
+    content: none !important;
+}
+
+.moderncart-toggle-slide-out a,
+.moderncart-toggle-slide-out button,
+#moderncart-floating-cart a,
+#moderncart-floating-cart button {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    color: var(--rmh-green, #007a48) !important;
+    border: 1px solid #dcebe2 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(16, 37, 27, 0.12) !important;
+    filter: none !important;
+}
+
+.moderncart-toggle-slide-out svg,
+#moderncart-floating-cart svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: var(--rmh-green, #007a48) !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.moderncart-toggle-slide-out .cart-count,
+.moderncart-toggle-slide-out .count,
+.moderncart-toggle-slide-out [class*="count"],
+#moderncart-floating-cart .cart-count,
+#moderncart-floating-cart .count,
+#moderncart-floating-cart [class*="count"] {
+    min-width: 18px !important;
+    height: 18px !important;
+    padding: 0 5px !important;
+    border-radius: 999px !important;
+    background: var(--rmh-green, #007a48) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
 @media (max-width: 768px) {
     body {
         padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;

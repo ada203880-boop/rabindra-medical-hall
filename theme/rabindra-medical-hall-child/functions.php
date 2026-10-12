@@ -1005,7 +1005,7 @@ function rmh_polish_homepage_order_tools( $content ) {
                     <span><?php echo esc_html__( 'PHARMACY SUPPORT', 'rabindra-medical-hall' ); ?></span>
                     <h3><?php echo esc_html__( 'Call Pharmacy', 'rabindra-medical-hall' ); ?></h3>
                     <p><?php echo esc_html__( 'Speak with our pharmacy team for order assistance.', 'rabindra-medical-hall' ); ?></p>
-                    <strong><?php echo esc_html( rmh_get_contact_phone() ); ?></strong>
+                    <strong class="rmh-tool-phone__action"><?php echo esc_html__( 'Tap to call', 'rabindra-medical-hall' ); ?></strong>
                 </div>
             </a>
         </div>

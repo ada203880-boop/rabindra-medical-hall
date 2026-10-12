@@ -733,22 +733,102 @@ input#modalRxCamera {
 }
 
 /* ==========================================================================
-   8. PHASE 1 — COMPACT MOBILE HEADER (reduce 128px → ~102px)
-   Reduces top sticky header height from ~128.6px to ~102px by tightening
-   padding from 10px 16px → 6px 12px and gap from 10px → 6px.
-   This reclaims ~26px of usable viewport on every page.
+   8. PHASE 1 — COMPACT MOBILE HEADER & STORE BRANDING
+   - Row 1: Green logo mark + "Rabindra Medical Hall" on left, hamburger on right.
+   - Row 2: Search bar full width directly below branding row.
+   - Removes empty header space while maintaining 44x44 touch targets.
    ========================================================================== */
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .rmh-site-header__inner {
-        padding: 6px 12px !important;
-        gap: 6px !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        grid-template-rows: auto auto !important;
+        align-items: center !important;
+        padding: 8px 12px 10px 12px !important;
+        gap: 8px 10px !important;
         min-height: 0 !important;
     }
 
-    /* Search bar margin already contributes ~6px; keep it but reduce slightly */
+    /* Brand link container */
+    .rmh-site-header__brand {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 9px !important;
+        min-width: 0 !important;
+        text-decoration: none !important;
+    }
+
+    /* Existing green medical logo */
+    .rmh-site-header__mark {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        flex: 0 0 36px !important;
+        border-radius: 8px !important;
+        object-fit: contain !important;
+        display: block !important;
+    }
+
+    /* Store name text container */
+    .rmh-site-header__brand-text {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+        overflow: hidden !important;
+    }
+
+    /* Store name: Rabindra Medical Hall */
+    .rmh-site-header__name {
+        display: block !important;
+        font-size: clamp(14px, 4.3vw, 17px) !important;
+        font-weight: 800 !important;
+        color: #007a48 !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        letter-spacing: -0.01em !important;
+        margin: 0 !important;
+    }
+
+    /* Keep tagline hidden on mobile to avoid overcrowding */
+    .rmh-site-header__tagline {
+        display: none !important;
+    }
+
+    /* Hamburger menu toggle on right */
+    .rmh-menu-toggle {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        justify-self: end !important;
+        display: inline-flex !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        z-index: 56 !important;
+    }
+
+    /* Search bar row below branding */
     .rmh-site-header__inner .rmh-site-search {
-        margin: 2px 0 0 !important;
+        grid-column: 1 / -1 !important;
+        grid-row: 2 !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* Hide desktop actions from mobile header row */
+    .rmh-header-loc-badge,
+    .rmh-site-header__actions {
+        display: none !important;
     }
 }
 

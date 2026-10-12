@@ -11540,9 +11540,17 @@ body.home .rmh-tool-card,
     }
 }
 
-@media (max-width: 360px) {
+/* Mobile ≤768px: single column so content-heavy cards (WhatsApp, phone, hours)
+   are not cramped. Cards have flex-direction:column so height auto is correct. */
+@media (max-width: 768px) {
     .rmh-quick-services-grid {
         grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    .rmh-qs-card {
+        height: auto !important;
+        min-height: 0 !important;
     }
 }
 

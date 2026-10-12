@@ -1972,9 +1972,15 @@ input#modalRxCamera {
     line-height: 1 !important;
 }
 
-/* Drawer modal overlay & panel */
-#moderncart-slide-out-modal,
-.moderncart-plugin.moderncart-modal {
+/* Drawer modal overlay & panel: hidden by default, shown when open */
+#moderncart-slide-out-modal:not(.moderncart-show),
+.moderncart-plugin.moderncart-modal:not(.moderncart-show) {
+    display: none !important;
+}
+
+#moderncart-slide-out-modal.moderncart-show,
+.moderncart-plugin.moderncart-modal.moderncart-show {
+    display: block !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;

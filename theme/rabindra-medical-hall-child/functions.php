@@ -4554,3 +4554,14 @@ function rmh_enqueue_mobile_ui_assets() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'rmh_enqueue_mobile_ui_assets', 1000 );
+
+/**
+ * Permanently remove Cash on Delivery (COD) payment gateway.
+ */
+function rmh_disable_cash_on_delivery( $available_gateways ) {
+    if ( isset( $available_gateways['cod'] ) ) {
+        unset( $available_gateways['cod'] );
+    }
+    return $available_gateways;
+}
+add_filter( 'woocommerce_available_payment_gateways', 'rmh_disable_cash_on_delivery', 999 );

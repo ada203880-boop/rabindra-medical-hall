@@ -1491,72 +1491,524 @@ input#modalRxCamera {
 }
 
 /* ==========================================================================
-   PHASE 7 — COMPREHENSIVE MOBILE FIXES (2026-10-12)
-   Covers: cart clearance, services card layout, qs-card buttons,
-   manufacturer grid, hero image, delivery-tracking section, body padding.
-   All rules use !important to override custom.css (loaded earlier).
+   PHASE 7 — COMPREHENSIVE MOBILE REPAIR (2026-10-12)
+   1. Hero image & caption — normal flow, full visibility, unclipped branding.
+   2. Trusted Manufacturers — smooth horizontal scroll carousel (1.2–1.4 cards).
+   3. Floating Cart — brand green button, crisp white cart glyph, top-right red badge.
+   4. Services, tools, delivery tracking & footer padding coordination.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   7A. BODY BOTTOM PADDING — single authoritative value (72px + safe-area).
-   Supersedes the 66px (Phase 6 §6) and 62px (Phase 12 §5) rules above.
-   72px = 60px nav height + 12px comfort gap so last-row cards are fully visible.
+   7A. BODY BOTTOM PADDING — single authoritative clearance (74px + safe-area).
+   Ensures bottom nav (60px) + comfort gap never obscures interactive cards.
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
     body {
-        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+        padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
     }
 }
 
 /* --------------------------------------------------------------------------
-   7B. MODERNECART FLOATING CART — clear above the 60px bottom nav.
-   Also ensure the drawer modal is always viewport-fixed and full-height.
+   7B. HERO SECTION — CLEAN VERTICAL FLOW & FULL MEDICINE BOX VISIBILITY
+   - Normal document flow (no fixed/max-height clipping).
+   - Container grows naturally to fit content across 320, 360, 375, 391, 430, 480px.
+   - Complete pharmacy delivery box visible without cropping box branding.
+   - figcaption ("Trusted care, packed for your doorstep.") fully visible.
+   - Balanced transition to next section.
+   - Desktop 2-column layout preserved.
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-    .moderncart-toggle-slide-out,
-    #moderncart-floating-cart {
-        position: fixed !important;
-        bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
-        right: 14px !important;
-        left: auto !important;
-        z-index: 9995 !important;
-    }
-
-    /* Ensure modal overlay covers full viewport (never bleeds into doc-flow) */
-    #moderncart-slide-out-modal,
-    .moderncart-plugin.moderncart-modal {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
+    .rmh-home-hero,
+    .rmh-hero {
         width: 100% !important;
-        height: 100% !important;
-        z-index: 100000 !important;
-        /* Display is toggled by ModernCart JS — do NOT force display:none here */
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        margin: 12px auto 28px auto !important;
+        padding: 18px 16px 20px 16px !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
     }
 
-    /* Drawer panel: full height, scroll within */
-    #moderncart-slide-out,
-    .moderncart-default-slide-out {
-        position: fixed !important;
-        top: 0 !important;
-        height: 100% !important;
-        max-height: 100vh !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
-        max-width: min(380px, 92vw) !important;
+    .rmh-home-hero::before,
+    .rmh-home-hero::after {
+        display: none !important;
+    }
+
+    .rmh-home-hero__content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    .rmh-home-hero h1 {
+        font-size: clamp(1.5rem, 7vw, 2.1rem) !important;
+        line-height: 1.15 !important;
+        margin: 0 !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+    }
+
+    .rmh-home-hero p {
+        font-size: 0.92rem !important;
+        line-height: 1.5 !important;
+        color: #4b6358 !important;
+        margin: 0 !important;
+    }
+
+    .rmh-home-hero .rmh-hero-buttons {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+        margin-top: 4px !important;
+    }
+
+    .rmh-home-hero .rmh-hero-buttons .rmh-btn {
+        width: 100% !important;
+        min-height: 48px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .rmh-home-hero__trust {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        margin-top: 4px !important;
+        padding: 10px 0 !important;
+        border-top: 1px solid rgba(0, 122, 72, 0.12) !important;
+    }
+
+    .rmh-hero-art {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 8px 0 0 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .rmh-hero-art__frame {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: hidden !important;
+        border: 1px solid #d9e5df !important;
+        border-radius: 14px !important;
+        background: #ffffff !important;
+        box-shadow: 0 4px 16px rgba(23, 73, 53, 0.08) !important;
+        box-sizing: border-box !important;
+    }
+
+    .rmh-hero-art img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        aspect-ratio: auto !important;
+        object-fit: contain !important;
+        display: block !important;
+        border-radius: 0 !important;
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+    }
+
+    .rmh-hero-art figcaption {
+        display: block !important;
+        visibility: visible !important;
+        width: 100% !important;
+        margin-top: 8px !important;
+        margin-bottom: 0 !important;
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        color: #4b6358 !important;
+        text-align: center !important;
         box-sizing: border-box !important;
     }
 }
 
 /* --------------------------------------------------------------------------
-   7C. QUICK SERVICES CARDS — single-column on mobile, readable button targets.
-   The custom.css block at @media(≤768px) sets grid to 1fr; this block
-   reinforces it and fixes card padding / button tap-targets.
+   7C. TRUSTED MANUFACTURERS — SMOOTH HORIZONTAL SCROLLING ROW
+   - Section heading wraps naturally on narrow screens (never clipped).
+   - Horizontal scrolling row at ≤768px (replaces cramped 2-column grid).
+   - Shows ~1.2–1.4 cards at a time on 391px viewport (clear scrolling cue).
+   - Consistent card widths, heights, padding, gaps, and corner radii.
+   - Logos centered with object-fit: contain.
+   - Long manufacturer names wrap sensibly; medicine counts & links fully visible.
+   - Horizontal scrolling stays STRICTLY inside row (no body overflow).
+   - Subtle, discoverable scrollbar with touch & keyboard scroll support.
+   - Preserves multi-column grid on desktop (>768px).
+   -------------------------------------------------------------------------- */
+.rmh-brands-section {
+    margin-top: 24px !important;
+    margin-bottom: 32px !important;
+    box-sizing: border-box !important;
+}
+
+.rmh-brands-section .rmh-section-heading h2,
+#rmh-brands-heading {
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    line-height: 1.25 !important;
+}
+
+@media (max-width: 768px) {
+    .rmh-brands-section {
+        padding-inline: 16px !important;
+        overflow: visible !important;
+    }
+
+    .rmh-brands-section .rmh-section-heading {
+        margin-bottom: 14px !important;
+    }
+
+    .rmh-brands-section .rmh-section-heading h2 {
+        font-size: 1.35rem !important;
+    }
+
+    .manufacturer-grid,
+    .rmh-brands-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        scroll-snap-type: x mandatory !important;
+        scroll-padding-inline: 16px !important;
+        overscroll-behavior-x: contain !important;
+        gap: 12px !important;
+        width: calc(100% + 32px) !important;
+        max-width: calc(100% + 32px) !important;
+        margin-left: -16px !important;
+        margin-right: -16px !important;
+        padding: 4px 16px 14px 16px !important;
+        box-sizing: border-box !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: #007a48 #f1f5f9 !important;
+    }
+
+    /* Subtle discoverable scrollbar for webkit */
+    .manufacturer-grid::-webkit-scrollbar,
+    .rmh-brands-grid::-webkit-scrollbar {
+        height: 5px !important;
+        display: block !important;
+    }
+
+    .manufacturer-grid::-webkit-scrollbar-track,
+    .rmh-brands-grid::-webkit-scrollbar-track {
+        background: #f1f5f9 !important;
+        border-radius: 99px !important;
+        margin: 0 16px !important;
+    }
+
+    .manufacturer-grid::-webkit-scrollbar-thumb,
+    .rmh-brands-grid::-webkit-scrollbar-thumb {
+        background: #007a48 !important;
+        border-radius: 99px !important;
+    }
+
+    /* Card sizing: shows ~1.2 to 1.4 cards at a time across 320px–480px */
+    .manufacturer-card,
+    .rmh-brand-card {
+        flex: 0 0 clamp(240px, 72vw, 275px) !important;
+        width: clamp(240px, 72vw, 275px) !important;
+        max-width: 80vw !important;
+        min-height: 154px !important;
+        height: auto !important;
+        scroll-snap-align: start !important;
+        scroll-snap-stop: normal !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 14px 12px !important;
+        background: #ffffff !important;
+        border: 1px solid #dcebe2 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(16, 37, 27, 0.05) !important;
+        box-sizing: border-box !important;
+        text-decoration: none !important;
+        transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+    }
+
+    .rmh-brand-card:focus-visible {
+        outline: 2px solid #007a48 !important;
+        outline-offset: 2px !important;
+    }
+
+    .manufacturer-logo-wrap,
+    .rmh-brand-card__logo-wrap {
+        width: 100% !important;
+        height: 44px !important;
+        max-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto 8px auto !important;
+        overflow: hidden !important;
+    }
+
+    .manufacturer-logo,
+    .rmh-brand-card__logo {
+        max-height: 40px !important;
+        max-width: 110px !important;
+        width: auto !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block !important;
+        margin: 0 auto !important;
+    }
+
+    .rmh-brand-card__name {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: #10251b !important;
+        line-height: 1.3 !important;
+        margin: 0 0 3px 0 !important;
+        text-align: center !important;
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+        display: block !important;
+    }
+
+    .rmh-brand-card__count {
+        font-size: 12px !important;
+        color: #587065 !important;
+        line-height: 1.2 !important;
+        margin: 0 0 6px 0 !important;
+        display: block !important;
+    }
+
+    .rmh-brand-card__link {
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        color: #007a48 !important;
+        line-height: 1.2 !important;
+        margin-top: auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        text-decoration: none !important;
+    }
+}
+
+/* Desktop layout preservation (>768px) */
+@media (min-width: 769px) {
+    .manufacturer-grid,
+    .rmh-brands-grid {
+        display: grid !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        gap: 14px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 20px 0 0 0 !important;
+    }
+
+    @media (max-width: 1024px) {
+        .rmh-brands-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 12px !important;
+        }
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7D. FLOATING CART — BRAND GREEN CIRCLE, CRISP WHITE CART ICON & RED BADGE
+   - Compact circular cart button (52px x 52px, WCAG touch target).
+   - Pharmacy green branding (#007a48) with subtle elevation shadow.
+   - Recognizable crisp white shopping cart glyph, clearly visible.
+   - Red item-count badge (#dc2626) in TOP-RIGHT corner.
+   - Badge never covers the cart icon.
+   - Cleared above fixed bottom navigation (calc(74px + safe-area)).
+   - Accessible keyboard focus and ARIA styling.
+   -------------------------------------------------------------------------- */
+#moderncart-floating-cart,
+.moderncart-toggle-slide-out {
+    position: fixed !important;
+    bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 14px !important;
+    left: auto !important;
+    top: auto !important;
+    width: 52px !important;
+    height: 52px !important;
+    z-index: 9995 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+}
+
+/* The circular button itself */
+#moderncart-floating-cart button,
+.moderncart-floating-cart-button {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    border-radius: 50% !important;
+    background-color: #007a48 !important;
+    background: #007a48 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 14px rgba(0, 122, 72, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+#moderncart-floating-cart button:hover,
+.moderncart-floating-cart-button:hover {
+    background-color: #08633c !important;
+    background: #08633c !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(0, 122, 72, 0.5) !important;
+}
+
+#moderncart-floating-cart button:active,
+.moderncart-floating-cart-button:active {
+    transform: scale(0.95) !important;
+}
+
+#moderncart-floating-cart button:focus-visible,
+.moderncart-floating-cart-button:focus-visible {
+    outline: 3px solid #22c55e !important;
+    outline-offset: 3px !important;
+}
+
+/* Icon container inside button: perfectly centered */
+#moderncart-floating-cart .moderncart-floating-cart-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: static !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #ffffff !important;
+}
+
+/* The cart SVG symbol: crisp white, well-proportioned, completely separated from badge */
+#moderncart-floating-cart .moderncart-floating-cart-icon svg {
+    width: 21px !important;
+    height: 21px !important;
+    max-width: 21px !important;
+    max-height: 21px !important;
+    display: block !important;
+    margin: 5px 0 0 -5px !important; /* positioned so top-right badge never overlaps icon bounds */
+    fill: none !important;
+    color: #ffffff !important;
+    transform: none !important;
+}
+
+#moderncart-floating-cart .moderncart-floating-cart-icon svg path {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* Item count badge: RED, in TOP-RIGHT corner */
+#moderncart-floating-cart .moderncart-floating-cart-count {
+    position: absolute !important;
+    top: -4px !important;
+    right: -4px !important;
+    left: auto !important;
+    bottom: auto !important;
+    background-color: #dc2626 !important;
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    min-width: 19px !important;
+    height: 19px !important;
+    line-height: 15px !important;
+    border-radius: 999px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 3px !important;
+    box-sizing: border-box !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}
+
+#moderncart-floating-cart .moderncart-floating-cart-count span {
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+}
+
+/* Drawer modal overlay & panel */
+#moderncart-slide-out-modal,
+.moderncart-plugin.moderncart-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 100000 !important;
+}
+
+#moderncart-slide-out,
+.moderncart-default-slide-out {
+    position: fixed !important;
+    top: 0 !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+    max-width: min(380px, 92vw) !important;
+    box-sizing: border-box !important;
+}
+
+/* On desktop (>768px), keep floating cart accessible at bottom right */
+@media (min-width: 769px) {
+    #moderncart-floating-cart,
+    .moderncart-toggle-slide-out {
+        bottom: 24px !important;
+        right: 24px !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7E. QUICK SERVICES CARDS — single-column on mobile, readable button targets.
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-
-    /* Card: unrestricted height, comfortable padding */
     .rmh-qs-card {
         height: auto !important;
         min-height: 0 !important;
@@ -1564,23 +2016,19 @@ input#modalRxCamera {
         gap: 10px !important;
     }
 
-    /* Kicker (uppercase label) — explicit px */
     .rmh-qs-card__kicker {
         font-size: 11px !important;
     }
 
-    /* Heading */
     .rmh-qs-card h3 {
         font-size: 1rem !important;
     }
 
-    /* Description text */
     .rmh-qs-card p {
         font-size: 13px !important;
         line-height: 1.5 !important;
     }
 
-    /* CTA link/button — 44px minimum tap target */
     .rmh-qs-btn,
     .rmh-qs-card .rmh-btn,
     .rmh-qs-card a.rmh-btn {
@@ -1594,7 +2042,6 @@ input#modalRxCamera {
         word-break: break-word !important;
     }
 
-    /* Prescription / PIN code buttons inside service cards */
     .rmh-qs-card .rmh-btn-outline,
     .rmh-qs-card .rmh-btn-primary,
     .rmh-qs-card .rmh-btn-light {
@@ -1609,8 +2056,7 @@ input#modalRxCamera {
 }
 
 /* --------------------------------------------------------------------------
-   7D. PHARMACY TOOLS CARDS (.rmh-tool-card) — keep 2-col but show description
-   and ensure minimum 44px height on narrow phones.
+   7F. PHARMACY TOOLS CARDS (.rmh-tool-card)
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
     .rmh-tools-grid {
@@ -1621,7 +2067,6 @@ input#modalRxCamera {
         min-height: 64px !important;
     }
 
-    /* Restore description visibility on single-col narrow layout */
     .rmh-tool-content p {
         display: block !important;
         font-size: 12px !important;
@@ -1631,70 +2076,7 @@ input#modalRxCamera {
 }
 
 /* --------------------------------------------------------------------------
-   7E. MANUFACTURER / BRAND CARDS GRID — 2-col at 360–767px (already set in
-   custom.css); reinforce overflow and image containment for narrow phones.
-   -------------------------------------------------------------------------- */
-@media (max-width: 767px) {
-    .manufacturer-grid,
-    .rmh-brands-grid {
-        overflow: visible !important; /* cards can breathe */
-    }
-
-    .manufacturer-card,
-    .rmh-brand-card {
-        overflow: hidden !important;
-        min-height: 0 !important;
-        height: auto !important;
-    }
-
-    /* Logo area: don't let tall logos overflow their wrapper */
-    .manufacturer-logo-wrap,
-    .rmh-brand-card__logo-wrap {
-        overflow: hidden !important;
-        flex-shrink: 0 !important;
-    }
-
-    .manufacturer-logo,
-    .rmh-brand-card__logo {
-        object-fit: contain !important;
-        width: 100% !important;
-        height: 100% !important;
-    }
-}
-
-/* --------------------------------------------------------------------------
-   7F. HERO SECTION — image and layout on narrow phones.
-   -------------------------------------------------------------------------- */
-@media (max-width: 480px) {
-    .rmh-home-hero,
-    .rmh-hero {
-        padding: 16px 12px !important;
-        gap: 12px !important;
-    }
-
-    .rmh-home-hero h1 {
-        font-size: clamp(1.45rem, 8vw, 2rem) !important;
-    }
-
-    .rmh-home-hero p {
-        font-size: 0.88rem !important;
-    }
-
-    .rmh-hero-art,
-    .rmh-hero-art__frame {
-        max-height: 200px !important;
-        overflow: hidden !important;
-    }
-
-    .rmh-hero-art img {
-        max-height: 200px !important;
-        object-fit: contain !important;
-        width: 100% !important;
-    }
-}
-
-/* --------------------------------------------------------------------------
-   7G. DELIVERY FEEDBACK & LIVE ORDER TRACKING SECTION — vertical stack on mobile.
+   7G. DELIVERY FEEDBACK & LIVE ORDER TRACKING SECTION
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
     .rmh-delivery-tracking-section,
@@ -1703,7 +2085,6 @@ input#modalRxCamera {
         box-sizing: border-box !important;
     }
 
-    /* If the inner layout uses flex-row, switch to column */
     .rmh-delivery-tracking-section .rmh-section-inner,
     .rmh-delivery-tracking-section .rmh-tracking-grid,
     .rmh-delivery-tracking-section .rmh-tracking-columns {
@@ -1712,14 +2093,12 @@ input#modalRxCamera {
         gap: 16px !important;
     }
 
-    /* Each tracking column fills full width */
     .rmh-delivery-tracking-section .rmh-tracking-col,
     .rmh-delivery-tracking-section .rmh-tracking-item {
         width: 100% !important;
         max-width: 100% !important;
     }
 
-    /* Rating / feedback stars — ensure tap targets */
     .rmh-rating-btn,
     .rmh-feedback-btn {
         min-height: 44px !important;
@@ -1728,8 +2107,7 @@ input#modalRxCamera {
 }
 
 /* --------------------------------------------------------------------------
-   7H. TRUST BADGES & FOOTER — ensure horizontal overflow is clipped,
-   text wraps, and badges stack cleanly on very narrow phones.
+   7H. TRUST BADGES & FOOTER OVERFLOW
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
     .rmh-trust-badges,
@@ -1747,7 +2125,6 @@ input#modalRxCamera {
         text-align: center !important;
     }
 
-    /* Footer text — readable on 360px */
     .site-footer,
     .ast-footer-overlay {
         font-size: 13px !important;
@@ -1761,8 +2138,7 @@ input#modalRxCamera {
 }
 
 /* --------------------------------------------------------------------------
-   7I. HORIZONTAL OVERFLOW SENTINEL — belt-and-suspenders prevention.
-   Applied to the page wrapper; ensures no single child can widen the body.
+   7I. HORIZONTAL OVERFLOW SENTINEL — prevents page-wide horizontal scroll
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
     #page,

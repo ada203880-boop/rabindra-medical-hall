@@ -1489,3 +1489,291 @@ input#modalRxCamera {
         height: 48px !important;
     }
 }
+
+/* ==========================================================================
+   PHASE 7 — COMPREHENSIVE MOBILE FIXES (2026-10-12)
+   Covers: cart clearance, services card layout, qs-card buttons,
+   manufacturer grid, hero image, delivery-tracking section, body padding.
+   All rules use !important to override custom.css (loaded earlier).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   7A. BODY BOTTOM PADDING — single authoritative value (72px + safe-area).
+   Supersedes the 66px (Phase 6 §6) and 62px (Phase 12 §5) rules above.
+   72px = 60px nav height + 12px comfort gap so last-row cards are fully visible.
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7B. MODERNECART FLOATING CART — clear above the 60px bottom nav.
+   Also ensure the drawer modal is always viewport-fixed and full-height.
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .moderncart-toggle-slide-out,
+    #moderncart-floating-cart {
+        position: fixed !important;
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+        right: 14px !important;
+        left: auto !important;
+        z-index: 9995 !important;
+    }
+
+    /* Ensure modal overlay covers full viewport (never bleeds into doc-flow) */
+    #moderncart-slide-out-modal,
+    .moderncart-plugin.moderncart-modal {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 100000 !important;
+        /* Display is toggled by ModernCart JS — do NOT force display:none here */
+    }
+
+    /* Drawer panel: full height, scroll within */
+    #moderncart-slide-out,
+    .moderncart-default-slide-out {
+        position: fixed !important;
+        top: 0 !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+        max-width: min(380px, 92vw) !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7C. QUICK SERVICES CARDS — single-column on mobile, readable button targets.
+   The custom.css block at @media(≤768px) sets grid to 1fr; this block
+   reinforces it and fixes card padding / button tap-targets.
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+    /* Card: unrestricted height, comfortable padding */
+    .rmh-qs-card {
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 18px 16px !important;
+        gap: 10px !important;
+    }
+
+    /* Kicker (uppercase label) — explicit px */
+    .rmh-qs-card__kicker {
+        font-size: 11px !important;
+    }
+
+    /* Heading */
+    .rmh-qs-card h3 {
+        font-size: 1rem !important;
+    }
+
+    /* Description text */
+    .rmh-qs-card p {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+    }
+
+    /* CTA link/button — 44px minimum tap target */
+    .rmh-qs-btn,
+    .rmh-qs-card .rmh-btn,
+    .rmh-qs-card a.rmh-btn {
+        min-height: 44px !important;
+        padding: 10px 14px !important;
+        font-size: 13px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    /* Prescription / PIN code buttons inside service cards */
+    .rmh-qs-card .rmh-btn-outline,
+    .rmh-qs-card .rmh-btn-primary,
+    .rmh-qs-card .rmh-btn-light {
+        min-height: 44px !important;
+        font-size: 13px !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: normal !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7D. PHARMACY TOOLS CARDS (.rmh-tool-card) — keep 2-col but show description
+   and ensure minimum 44px height on narrow phones.
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .rmh-tools-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .rmh-tool-card {
+        min-height: 64px !important;
+    }
+
+    /* Restore description visibility on single-col narrow layout */
+    .rmh-tool-content p {
+        display: block !important;
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        margin: 0 0 2px 0 !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7E. MANUFACTURER / BRAND CARDS GRID — 2-col at 360–767px (already set in
+   custom.css); reinforce overflow and image containment for narrow phones.
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+    .manufacturer-grid,
+    .rmh-brands-grid {
+        overflow: visible !important; /* cards can breathe */
+    }
+
+    .manufacturer-card,
+    .rmh-brand-card {
+        overflow: hidden !important;
+        min-height: 0 !important;
+        height: auto !important;
+    }
+
+    /* Logo area: don't let tall logos overflow their wrapper */
+    .manufacturer-logo-wrap,
+    .rmh-brand-card__logo-wrap {
+        overflow: hidden !important;
+        flex-shrink: 0 !important;
+    }
+
+    .manufacturer-logo,
+    .rmh-brand-card__logo {
+        object-fit: contain !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7F. HERO SECTION — image and layout on narrow phones.
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .rmh-home-hero,
+    .rmh-hero {
+        padding: 16px 12px !important;
+        gap: 12px !important;
+    }
+
+    .rmh-home-hero h1 {
+        font-size: clamp(1.45rem, 8vw, 2rem) !important;
+    }
+
+    .rmh-home-hero p {
+        font-size: 0.88rem !important;
+    }
+
+    .rmh-hero-art,
+    .rmh-hero-art__frame {
+        max-height: 200px !important;
+        overflow: hidden !important;
+    }
+
+    .rmh-hero-art img {
+        max-height: 200px !important;
+        object-fit: contain !important;
+        width: 100% !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7G. DELIVERY FEEDBACK & LIVE ORDER TRACKING SECTION — vertical stack on mobile.
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .rmh-delivery-tracking-section,
+    #rmh-delivery-section {
+        padding: 20px 16px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* If the inner layout uses flex-row, switch to column */
+    .rmh-delivery-tracking-section .rmh-section-inner,
+    .rmh-delivery-tracking-section .rmh-tracking-grid,
+    .rmh-delivery-tracking-section .rmh-tracking-columns {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+
+    /* Each tracking column fills full width */
+    .rmh-delivery-tracking-section .rmh-tracking-col,
+    .rmh-delivery-tracking-section .rmh-tracking-item {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Rating / feedback stars — ensure tap targets */
+    .rmh-rating-btn,
+    .rmh-feedback-btn {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7H. TRUST BADGES & FOOTER — ensure horizontal overflow is clipped,
+   text wraps, and badges stack cleanly on very narrow phones.
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .rmh-trust-badges,
+    .rmh-trust-bar,
+    .rmh-trust-regulatory-section {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        justify-content: center !important;
+    }
+
+    .rmh-trust-badge,
+    .rmh-trust-item {
+        flex: 1 1 calc(50% - 8px) !important;
+        max-width: 100% !important;
+        text-align: center !important;
+    }
+
+    /* Footer text — readable on 360px */
+    .site-footer,
+    .ast-footer-overlay {
+        font-size: 13px !important;
+        overflow-x: hidden !important;
+    }
+
+    .site-footer * {
+        max-width: 100% !important;
+        word-break: break-word !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7I. HORIZONTAL OVERFLOW SENTINEL — belt-and-suspenders prevention.
+   Applied to the page wrapper; ensures no single child can widen the body.
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    #page,
+    .ast-container,
+    .entry-content,
+    .wp-block-group,
+    .woocommerce {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* === END PHASE 7 === */

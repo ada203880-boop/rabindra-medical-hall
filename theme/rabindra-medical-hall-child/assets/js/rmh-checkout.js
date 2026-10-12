@@ -350,28 +350,34 @@
             var lines = [];
             lines.push('Hello Rabindra Medical Hall,');
             lines.push('');
-            lines.push('I would like to place an order request.');
+            lines.push('I would like to place an order request through your website.');
             lines.push('');
 
+            // CUSTOMER DETAILS
+            lines.push('━━━━━━━━━━━━━━━━━━');
             lines.push('CUSTOMER DETAILS');
-            lines.push('Name: ' + fullName);
-            lines.push('Mobile: ' + cleanPhone);
-            if (email) {
-                lines.push('Email: ' + email);
-            }
+            lines.push('━━━━━━━━━━━━━━━━━━');
+            lines.push('Name: ' + (fullName || 'Not Provided'));
+            lines.push('Mobile: ' + (cleanPhone || 'Not Provided'));
+            lines.push('Email: ' + (email || 'Not Provided'));
             lines.push('');
 
+            // DELIVERY ADDRESS
             lines.push('DELIVERY ADDRESS');
-            lines.push('House/Flat: ' + address1);
+            if (address1) {
+                lines.push('House/Flat: ' + address1);
+            }
             if (address2) {
                 lines.push('Street/Address: ' + address2);
             }
             if (landmark) {
                 lines.push('Landmark: ' + landmark);
             }
-            lines.push('City: ' + city);
-            lines.push('State: ' + state);
-            lines.push('PIN: ' + cleanPin);
+            lines.push('City: ' + (city || 'Cuttack'));
+            lines.push('State: ' + (state || 'Odisha'));
+            if (cleanPin) {
+                lines.push('PIN Code: ' + cleanPin);
+            }
             lines.push('');
 
             // 6b. Include GPS/Maps location if available — NEVER show raw coordinates!
@@ -391,25 +397,34 @@
                 finalMapsUrl = deliveryMaps;
             }
 
-            if (finalMapsUrl) {
-                lines.push('DELIVERY LOCATION');
-                lines.push('Google Maps: ' + finalMapsUrl);
-                lines.push('');
-            }
-
-            lines.push('ORDER DETAILS');
-            cartData.items.forEach(function (item) {
-                lines.push(item.name + ' × ' + item.quantity);
-                if (item.sku) {
-                    lines.push('SKU: ' + item.sku);
-                }
-                if (item.variation_details) {
-                    lines.push('Variant: ' + item.variation_details);
-                }
-            });
+            lines.push('DELIVERY LOCATION');
+            lines.push('Google Maps: ' + (finalMapsUrl || 'Not Provided'));
             lines.push('');
 
+            // ORDER DETAILS
+            lines.push('━━━━━━━━━━━━━━━━━━');
+            lines.push('ORDER DETAILS');
+            lines.push('━━━━━━━━━━━━━━━━━━');
+            lines.push('');
+
+            if (cartData && cartData.items && cartData.items.length) {
+                cartData.items.forEach(function (item, idx) {
+                    lines.push((idx + 1) + '. ' + item.name + ' × ' + item.quantity);
+                    lines.push('   SKU: ' + (item.sku || 'Not Available'));
+                    var itemPrice = item.price_formatted || (item.price ? '₹' + parseFloat(item.price).toFixed(2) : 'Price on request');
+                    lines.push('   Price: ' + itemPrice);
+                    if (item.variation_details) {
+                        lines.push('   Variant: ' + item.variation_details);
+                    }
+                    lines.push('');
+                });
+            }
+
+            // ORDER SUMMARY
+            lines.push('━━━━━━━━━━━━━━━━━━');
             lines.push('ORDER SUMMARY');
+            lines.push('━━━━━━━━━━━━━━━━━━');
+
             // Reconcile with live DOM review table if available
             var domSubtotal = cleanRupeeText($('.woocommerce-checkout-review-order-table .cart-subtotal td').text());
             var domDiscount = cleanRupeeText($('.woocommerce-checkout-review-order-table .cart-discount td').text());
@@ -421,7 +436,7 @@
             if ($shippingRow.length) {
                 var shippingText = $shippingRow.find('td').text().trim();
                 if (/no shipping options|no shipping method|not available/i.test(shippingText)) {
-                    domShipping = 'To be confirmed';
+                    domShipping = 'To Be Confirmed';
                 } else {
                     var parsedShipping = cleanRupeeText(shippingText);
                     if (parsedShipping) {
@@ -432,38 +447,25 @@
                 }
             }
 
-            var subtotalOut = domSubtotal || cartData.subtotal || '';
-            var discountOut = domDiscount || cartData.discount || '';
-            var taxOut      = domTax || cartData.tax || '';
-            var shippingOut = domShipping || cartData.shipping || 'To be confirmed';
-            var totalOut    = domTotal || cartData.total || 'Pending confirmation';
+            var subtotalOut = domSubtotal || cartData.subtotal || '₹0.00';
+            var shippingOut = domShipping || cartData.shipping || 'To Be Confirmed';
+            var totalOut    = domTotal || cartData.total || 'Pending Confirmation';
 
-            // If shipping is uncalculated or to be confirmed, total must be "Pending confirmation"
-            if (!shippingOut || shippingOut === 'To be confirmed') {
-                shippingOut = 'To be confirmed';
-                totalOut = 'Pending confirmation';
+            // If shipping is uncalculated or to be confirmed, total must be "Pending Confirmation"
+            if (!shippingOut || /to be confirmed/i.test(shippingOut)) {
+                shippingOut = 'To Be Confirmed';
+                totalOut = 'Pending Confirmation';
             }
 
-            if (subtotalOut) {
-                lines.push('Subtotal: ' + subtotalOut);
-            }
-            if (discountOut && discountOut !== '₹0.00') {
-                lines.push('Discount: ' + discountOut);
-            }
-            if (taxOut && taxOut !== '₹0.00') {
-                lines.push('Tax: ' + taxOut);
-            }
+            lines.push('Subtotal: ' + subtotalOut);
             lines.push('Delivery Charge: ' + shippingOut);
-            lines.push('Total: ' + totalOut);
+            lines.push('Estimated Total: ' + totalOut);
             lines.push('');
 
-            lines.push('ORDER TYPE');
-            lines.push('WhatsApp Order Request');
+            lines.push('ORDER TYPE: WhatsApp Order Request');
+            lines.push('Website: Rabindra Medical Hall');
             lines.push('');
-            lines.push('Please confirm product availability, final delivery charges, and delivery details.');
-            lines.push('');
-            lines.push('Important:');
-            lines.push('This is a WhatsApp order request. It does not create a WooCommerce order by itself. The store must confirm availability and the final payable amount.');
+            lines.push('Please confirm product availability, applicable delivery charges, the final payable amount, and delivery details before processing my request.');
             lines.push('');
             lines.push('Thank you,');
             lines.push('Rabindra Medical Hall');

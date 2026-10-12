@@ -373,7 +373,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <link rel="stylesheet" id="astra-parent-style-css" href="#wp-content/themes/astra/style.css?ver=1.0.0" media="all">
 <link rel="stylesheet" id="rmh-custom-css-css" href="assets/css/custom.css?ver=1791696345" media="all">
 <link rel="stylesheet" id="rmh-mobile-images-css" href="assets/css/rmh-mobile-images.css?ver=1791634631" media="all">
-<link rel="stylesheet" id="rmh-mobile-ui-css" href="assets/css/rmh-mobile-ui.css?ver=1791697021" media="all">
 <script id="jquery-core-js" src="#wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
 <script id="jquery-migrate-js" src="#wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
 <script data-wp-strategy="defer" defer="" id="wc-jquery-blockui-js" src="#wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.2.1"></script>
@@ -6898,6 +6897,8 @@ body.rmh-modal-open {
 
 
 </style>
+<!-- rmh-mobile-ui.css loaded AFTER wp-custom-css to guarantee cascade dominance -->
+<link rel="stylesheet" id="rmh-mobile-ui-css" href="assets/css/rmh-mobile-ui.css?ver=20261012" media="all">
 <script src="#wp-includes/js/wp-emoji-release.min.js?ver=7.1.3" defer=""></script></head>
 
 <body itemtype="https://schema.org/WebPage" itemscope="itemscope" class="home wp-singular page-template-default page page-id-22 wp-custom-logo wp-embed-responsive wp-theme-astra wp-child-theme-rabindra-medical-hall-child theme-astra woocommerce-js rmh-reference-ui ast-plain-container ast-no-sidebar astra-4.14.0 ast-single-post ast-inherit-site-logo-transparent ast-hfb-header ast-normal-title-enabled ast-header-break-point ast-header-loaded">
@@ -7908,7 +7909,7 @@ body.rmh-modal-open {
 {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/rabindra-medical-hall-child/*","/wp-content/themes/astra/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
 </script>
 
-<div id="moderncart-floating-cart" class="moderncart-toggle-slide-out" style="bottom: 66.5px !important;">
+<div id="moderncart-floating-cart" class="moderncart-toggle-slide-out" style="position:fixed !important; bottom:calc(74px + env(safe-area-inset-bottom,0px)) !important; right:16px !important; left:auto !important; z-index:9998 !important;">
 	
 <button class="moderncart-floating-cart-button" aria-label="
 Cart Button with 0 items" aria-haspopup="dialog" aria-expanded="false" aria-controls="moderncart-slide-out-modal" aria-live="polite">

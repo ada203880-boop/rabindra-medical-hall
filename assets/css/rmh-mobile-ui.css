@@ -1489,3 +1489,478 @@ input#modalRxCamera {
         height: 48px !important;
     }
 }
+
+/* ==========================================================================
+   PHASE 7 — CRITICAL MOBILE UI REPAIRS (2026-10-12)
+   Fixes: Cart drawer overlay, duplicate search icon, pharmacy services,
+   bottom-nav spacing, header/ribbon compaction.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   7A. CART DRAWER — Fixed Viewport Overlay (Critical Fix)
+   Root cause: #moderncart-slide-out-modal renders after </footer> in normal
+   document flow because its plugin CSS uses "#" href (never fetched).
+   -------------------------------------------------------------------------- */
+
+/* Backdrop / modal shell — hidden by default */
+#moderncart-slide-out-modal {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 100000 !important;
+    align-items: stretch !important;
+    justify-content: flex-end !important;
+    background: rgba(15, 23, 42, 0.55) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    backdrop-filter: blur(2px) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* When JS adds .moderncart-show or aria-hidden=false — show as flex */
+#moderncart-slide-out-modal.moderncart-show,
+#moderncart-slide-out-modal[aria-hidden="false"],
+body.rmh-cart-open #moderncart-slide-out-modal {
+    display: flex !important;
+}
+
+/* The actual drawer panel — slide in from right */
+#moderncart-slide-out {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: min(420px, 92vw) !important;
+    height: 100% !important;
+    max-height: 100dvh !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    background: #ffffff !important;
+    box-shadow: -4px 0 32px rgba(0, 0, 0, 0.18) !important;
+    z-index: 100001 !important;
+    transform: translateX(110%) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+}
+
+#moderncart-slide-out-modal.moderncart-show #moderncart-slide-out,
+#moderncart-slide-out-modal[aria-hidden="false"] #moderncart-slide-out,
+body.rmh-cart-open #moderncart-slide-out {
+    transform: translateX(0) !important;
+}
+
+/* Drawer internal layout */
+.moderncart-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 0 !important;
+}
+
+/* Header row */
+.moderncart-slide-out-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 14px 16px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    flex-shrink: 0 !important;
+    background: #ffffff !important;
+}
+
+.moderncart-slide-out-header-heading {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+    flex-direction: row-reverse !important;
+    justify-content: flex-end !important;
+}
+
+/* Close button */
+.moderncart-slide-out-header-close {
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 6px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #374151 !important;
+    border-radius: 8px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-shrink: 0 !important;
+    transition: background 0.15s ease !important;
+    order: 10 !important;
+}
+
+.moderncart-slide-out-header-close:hover,
+.moderncart-slide-out-header-close:focus-visible {
+    background: #f1f5f9 !important;
+    color: #1a202c !important;
+}
+
+.moderncart-slide-out-header-close svg {
+    width: 20px !important;
+    height: 20px !important;
+    fill: currentColor !important;
+    flex-shrink: 0 !important;
+}
+
+/* Cart title */
+.moderncart-slide-out-header-title {
+    flex: 1 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #1a202c !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    order: 0 !important;
+}
+
+.moderncart-slide-out-header-title span {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #1a202c !important;
+}
+
+/* Quantity badge */
+.moderncart-slide-out-header-quantity {
+    background: #007a48 !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    min-width: 22px !important;
+    height: 22px !important;
+    border-radius: 11px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 5px !important;
+    flex-shrink: 0 !important;
+    order: 5 !important;
+}
+
+/* Hide when "0" */
+.moderncart-slide-out-header-quantity[aria-label*="0 items"] {
+    display: none !important;
+}
+
+/* Cart scrollable body */
+.moderncart-slide-out-cart {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    min-height: 0 !important;
+}
+
+.moderncart-slide-out-cart-inner {
+    padding: 0 !important;
+}
+
+/* Empty cart state */
+.moderncart-empty-cart {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 48px 24px 32px !important;
+    text-align: center !important;
+    gap: 12px !important;
+}
+
+.moderncart-empty-cart p {
+    font-size: 14px !important;
+    color: #64748b !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+}
+
+/* Footer */
+.moderncart-slide-out-footer {
+    border-top: 1px solid #e2e8f0 !important;
+    padding: 14px 16px !important;
+    flex-shrink: 0 !important;
+    background: #ffffff !important;
+    margin-top: auto !important;
+}
+
+.moderncart-cart-total {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+.moderncart-cart-line-items {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.moderncart-cart-line-items-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.moderncart-cart-line-items__total {
+    border-top: 1px solid #e2e8f0 !important;
+    padding-top: 10px !important;
+    margin-top: 4px !important;
+}
+
+.moderncart-cart-line-items-label {
+    font-size: 13px !important;
+    color: #374151 !important;
+    font-weight: 600 !important;
+}
+
+.moderncart-cart-line-items-value {
+    font-size: 13px !important;
+    color: #374151 !important;
+    font-weight: 600 !important;
+}
+
+.moderncart-cart-line-items__total-label,
+.moderncart-cart-line-items__total-value {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #1a202c !important;
+}
+
+/* CTA / "Shop now" button */
+.moderncart-slide-out-footer .wc-proceed-to-checkout {
+    margin: 0 !important;
+}
+
+.moderncart-slide-out-footer .checkout-button,
+.moderncart-slide-out-footer .wc-proceed-to-checkout .checkout-button,
+.moderncart-slide-out-footer a.checkout-button {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 50px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #007a48 !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background 0.2s ease !important;
+    padding: 12px 20px !important;
+    box-sizing: border-box !important;
+    margin-top: 10px !important;
+}
+
+.moderncart-slide-out-footer .checkout-button:hover {
+    background: #006339 !important;
+}
+
+/* Floating cart bubble — above bottom nav */
+#moderncart-floating-cart,
+.moderncart-toggle-slide-out {
+    position: fixed !important;
+    bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 16px !important;
+    left: auto !important;
+    z-index: 9998 !important;
+    width: 56px !important;
+    height: 56px !important;
+    /* Override any inline style set by the plugin */
+    bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+.moderncart-floating-cart-button {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    background: #007a48 !important;
+    color: #ffffff !important;
+    border: none !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 16px rgba(0, 122, 72, 0.4) !important;
+    position: relative !important;
+    transition: background 0.2s ease, transform 0.15s ease !important;
+}
+
+.moderncart-floating-cart-button:hover {
+    background: #006339 !important;
+    transform: scale(1.05) !important;
+}
+
+.moderncart-floating-cart-count {
+    position: absolute !important;
+    top: -3px !important;
+    right: -3px !important;
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    min-width: 20px !important;
+    height: 20px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 4px !important;
+    border: 2px solid #ffffff !important;
+    box-sizing: content-box !important;
+}
+
+/* Body scroll-lock when cart is open */
+body.rmh-cart-open {
+    overflow: hidden !important;
+}
+
+/* --------------------------------------------------------------------------
+   7B. DUPLICATE SEARCH ICON — Suppress CSS ::before pseudo-element icon
+   The HTML already has <span class="rmh-search-lens"> with an inline SVG.
+   -------------------------------------------------------------------------- */
+
+.rmh-reference-ui .rmh-site-search::before,
+.rmh-shop-tools__search::before {
+    display: none !important;
+    content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   7C. PHARMACY SERVICES CARDS — Single column on mobile (≤600px)
+   Root cause: 2-column forced via !important in wp-custom-css, clipping text.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+    .rmh-tools-grid,
+    body.home .rmh-tools-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    .rmh-quick-services-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    .rmh-tool-card,
+    .rmh-qs-card {
+        height: auto !important;
+        min-height: unset !important;
+        overflow: visible !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .rmh-tool-content strong,
+    .rmh-tool-content a strong {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        display: block !important;
+    }
+
+    .rmh-tool-content p,
+    .rmh-qs-card p {
+        white-space: normal !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+
+    .rmh-tool-card .rmh-btn,
+    .rmh-tool-card .rmh-btn-whatsapp,
+    .rmh-tool-card a[href*="wa.me"],
+    .rmh-qs-card .rmh-qs-btn {
+        min-height: 44px !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: normal !important;
+        text-align: center !important;
+    }
+}
+
+/* Quick services also single-column up to 768px */
+@media (max-width: 768px) {
+    .rmh-quick-services-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7D. BOTTOM NAVIGATION SPACING — Last brand row not obscured by fixed nav
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .rmh-brands-section {
+        padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    body {
+        padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    footer.site-footer,
+    .site-footer,
+    #colophon {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7E. MOBILE HEADER & ANNOUNCEMENT RIBBON FIX
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #rmh-demo-banner {
+        padding: 4px 10px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+    }
+
+    /* Fix contain:strict clipping ribbon text */
+    .rmh-announcement-ribbon {
+        contain: layout paint !important;
+        overflow: hidden !important;
+        height: 30px !important;
+        min-height: 30px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .rmh-announcement-ribbon__item {
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        font-size: 12px !important;
+        line-height: 1 !important;
+    }
+}
+
+@media (max-width: 430px) {
+    .rmh-site-header__inner {
+        padding: 4px 10px !important;
+        gap: 4px !important;
+        min-height: 0 !important;
+    }
+}

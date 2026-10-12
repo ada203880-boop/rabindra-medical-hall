@@ -2978,86 +2978,90 @@ function rmh_get_cart_whatsapp_message( $customer_details = array() ) {
     $lines   = array();
     $lines[] = 'Hello Rabindra Medical Hall,';
     $lines[] = '';
-    $lines[] = 'I would like to place an order request.';
+    $lines[] = 'I would like to place an order request through your website.';
     $lines[] = '';
 
-    if ( ! empty( $customer_details['name'] ) || ! empty( $customer_details['phone'] ) ) {
-        $lines[] = 'CUSTOMER DETAILS';
-        if ( ! empty( $customer_details['name'] ) ) {
-            $lines[] = 'Name: ' . $customer_details['name'];
-        }
-        if ( ! empty( $customer_details['phone'] ) ) {
-            $lines[] = 'Mobile: ' . $customer_details['phone'];
-        }
-        if ( ! empty( $customer_details['email'] ) ) {
-            $lines[] = 'Email: ' . $customer_details['email'];
-        }
-        $lines[] = '';
-    }
+    // CUSTOMER DETAILS
+    $lines[] = '━━━━━━━━━━━━━━━━━━';
+    $lines[] = 'CUSTOMER DETAILS';
+    $lines[] = '━━━━━━━━━━━━━━━━━━';
+    $lines[] = 'Name: ' . ( ! empty( $customer_details['name'] ) ? $customer_details['name'] : 'Not Provided' );
+    $lines[] = 'Mobile: ' . ( ! empty( $customer_details['phone'] ) ? $customer_details['phone'] : 'Not Provided' );
+    $lines[] = 'Email: ' . ( ! empty( $customer_details['email'] ) ? $customer_details['email'] : 'Not Provided' );
+    $lines[] = '';
 
-    if ( ! empty( $customer_details['address_1'] ) || ! empty( $customer_details['city'] ) ) {
-        $lines[] = 'DELIVERY ADDRESS';
-        if ( ! empty( $customer_details['address_1'] ) ) {
-            $lines[] = 'House/Flat: ' . $customer_details['address_1'];
-        }
-        if ( ! empty( $customer_details['address_2'] ) ) {
-            $lines[] = 'Street/Address: ' . $customer_details['address_2'];
-        }
-        if ( ! empty( $customer_details['landmark'] ) ) {
-            $lines[] = 'Landmark: ' . $customer_details['landmark'];
-        }
-        if ( ! empty( $customer_details['city'] ) ) {
-            $lines[] = 'City: ' . $customer_details['city'];
-        }
-        if ( ! empty( $customer_details['state'] ) ) {
-            $lines[] = 'State: ' . $customer_details['state'];
-        }
-        if ( ! empty( $customer_details['postcode'] ) ) {
-            $lines[] = 'PIN: ' . $customer_details['postcode'];
-        }
-        $lines[] = '';
+    // DELIVERY ADDRESS
+    $lines[] = 'DELIVERY ADDRESS';
+    $house = ! empty( $customer_details['house'] ) ? $customer_details['house'] : ( ! empty( $customer_details['address_1'] ) ? $customer_details['address_1'] : '' );
+    if ( $house ) {
+        $lines[] = 'House/Flat: ' . $house;
     }
-
-    // Delivery location: ONLY Google Maps link, NEVER raw latitude or longitude!
-    if ( ! empty( $customer_details['maps_url'] ) ) {
-        $lines[] = 'DELIVERY LOCATION';
-        $lines[] = 'Google Maps: ' . $customer_details['maps_url'];
-        $lines[] = '';
+    $street = ! empty( $customer_details['street'] ) ? $customer_details['street'] : ( ! empty( $customer_details['address_2'] ) ? $customer_details['address_2'] : '' );
+    if ( $street ) {
+        $lines[] = 'Street/Address: ' . $street;
     }
+    if ( ! empty( $customer_details['landmark'] ) ) {
+        $lines[] = 'Landmark: ' . $customer_details['landmark'];
+    }
+    if ( ! empty( $customer_details['city'] ) ) {
+        $lines[] = 'City: ' . $customer_details['city'];
+    }
+    $lines[] = 'State: ' . ( ! empty( $customer_details['state'] ) ? $customer_details['state'] : 'Odisha' );
+    $pin = ! empty( $customer_details['postcode'] ) ? $customer_details['postcode'] : ( ! empty( $customer_details['pin'] ) ? $customer_details['pin'] : '' );
+    if ( $pin ) {
+        $lines[] = 'PIN Code: ' . $pin;
+    }
+    $lines[] = '';
 
+    // DELIVERY LOCATION
+    $lines[] = 'DELIVERY LOCATION';
+    $lines[] = 'Google Maps: ' . ( ! empty( $customer_details['maps_url'] ) ? $customer_details['maps_url'] : 'Not Provided' );
+    $lines[] = '';
+
+    // ORDER DETAILS
+    $lines[] = '━━━━━━━━━━━━━━━━━━';
     $lines[] = 'ORDER DETAILS';
+    $lines[] = '━━━━━━━━━━━━━━━━━━';
+    $lines[] = '';
+
+    $i = 1;
     foreach ( $cart_data['items'] as $item ) {
-        $lines[] = sprintf( '%s × %d', $item['name'], $item['quantity'] );
-        if ( ! empty( $item['sku'] ) ) {
-            $lines[] = 'SKU: ' . $item['sku'];
-        }
+        $name  = ! empty( $item['name'] ) ? $item['name'] : 'Medicine';
+        $qty   = ! empty( $item['quantity'] ) ? $item['quantity'] : 1;
+        $sku   = ! empty( $item['sku'] ) ? $item['sku'] : 'Not Available';
+        $price = ! empty( $item['price_formatted'] ) ? $item['price_formatted'] : ( ! empty( $item['price'] ) ? '₹' . number_format( (float) $item['price'], 2 ) : 'Price on request' );
+
+        $lines[] = sprintf( '%d. %s × %d', $i, $name, $qty );
+        $lines[] = '   SKU: ' . $sku;
+        $lines[] = '   Price: ' . $price;
         if ( ! empty( $item['variation_details'] ) ) {
-            $lines[] = 'Variant: ' . $item['variation_details'];
+            $lines[] = '   Variant: ' . $item['variation_details'];
         }
+        $lines[] = '';
+        $i++;
     }
-    $lines[] = '';
 
+    // ORDER SUMMARY
+    $lines[] = '━━━━━━━━━━━━━━━━━━';
     $lines[] = 'ORDER SUMMARY';
-    if ( ! empty( $cart_data['subtotal'] ) ) {
-        $lines[] = 'Subtotal: ' . $cart_data['subtotal'];
+    $lines[] = '━━━━━━━━━━━━━━━━━━';
+    $lines[] = 'Subtotal: ' . ( ! empty( $cart_data['subtotal'] ) ? $cart_data['subtotal'] : '₹0.00' );
+    $shipping = ! empty( $cart_data['shipping'] ) ? $cart_data['shipping'] : 'To Be Confirmed';
+    if ( strtolower( $shipping ) === 'to be confirmed' ) {
+        $shipping = 'To Be Confirmed';
     }
-    if ( ! empty( $cart_data['discount'] ) ) {
-        $lines[] = 'Discount: ' . $cart_data['discount'];
+    $lines[] = 'Delivery Charge: ' . $shipping;
+    $total = ! empty( $cart_data['total'] ) ? $cart_data['total'] : 'Pending Confirmation';
+    if ( strtolower( $total ) === 'pending confirmation' ) {
+        $total = 'Pending Confirmation';
     }
-    if ( ! empty( $cart_data['tax'] ) ) {
-        $lines[] = 'Tax: ' . $cart_data['tax'];
-    }
-    $lines[] = 'Delivery Charge: ' . ( ! empty( $cart_data['shipping'] ) ? $cart_data['shipping'] : 'To be confirmed' );
-    $lines[] = 'Total: ' . ( ! empty( $cart_data['total'] ) ? $cart_data['total'] : 'Pending confirmation' );
+    $lines[] = 'Estimated Total: ' . $total;
     $lines[] = '';
 
-    $lines[] = 'ORDER TYPE';
-    $lines[] = 'WhatsApp Order Request';
+    $lines[] = 'ORDER TYPE: WhatsApp Order Request';
+    $lines[] = 'Website: Rabindra Medical Hall';
     $lines[] = '';
-    $lines[] = 'Please confirm product availability, final delivery charges, and delivery details.';
-    $lines[] = '';
-    $lines[] = 'Important:';
-    $lines[] = 'This is a WhatsApp order request. It does not create a WooCommerce order by itself. The store must confirm availability and the final payable amount.';
+    $lines[] = 'Please confirm product availability, applicable delivery charges, the final payable amount, and delivery details before processing my request.';
     $lines[] = '';
     $lines[] = 'Thank you,';
     $lines[] = 'Rabindra Medical Hall';
